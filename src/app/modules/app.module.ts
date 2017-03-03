@@ -18,6 +18,9 @@ import { ListsModule } from './../lists';
 
 import { PiholeApiService } from './../services/pihole-api.service';
 import { PiholeAuthService } from './../services/pihole-auth.service';
+import { MockPiholeBackendService } from "./../services/mock-pihole-api.service";
+import { MockBackend } from '@angular/http/testing';
+import { BaseRequestOptions } from '@angular/http';
 
 
 @NgModule({
@@ -37,7 +40,13 @@ import { PiholeAuthService } from './../services/pihole-auth.service';
         DashboardModule,
         HistoryModule
     ],
-    providers: [PiholeApiService, PiholeAuthService],
+    providers: [
+        PiholeApiService,
+        PiholeAuthService,
+        MockPiholeBackendService,
+        MockBackend,
+        BaseRequestOptions
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
