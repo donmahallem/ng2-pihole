@@ -1,0 +1,19 @@
+.user-panel
+	.pull-left.image
+		img.img-responsive(src='assets/images/logo.svg', alt='Pi-hole logo', style='display: table; table-layout: fixed; height: 67px;')
+	.pull-left.info#infoPanel(ng-cloack)
+		p Status
+		a(href='#')
+			i.fa.fa-circle(style='color:#7FFF00')
+			span {{status?.status}}
+		a(href='#',ng-style="{'color':(status?.temperature===false)?'#AAAAAA':false}")
+			i.fa.fa-fire(ng-style="{'color': (status?.temperature>60)?'#FF0000':'#3366FF'}")
+			|  Temp:&nbsp;{{status?.temperature===false?"---":status?.temperature}}
+		br
+		a(href='#',ng-style="{'color':(status?.loadAverage===false)?'#AAAAAA':false}")
+			i.fa.fa-circle(style='color:#7FFF00')
+			|  Load:&nbsp;{{status?.loadAverage===false?"---":status?.loadAverage}}
+		br
+		a(href='#',ng-style="{'color':(status?.memoryUsage===false)?'#AAAAAA':false}")
+			i.fa.fa-circle(style='color:#7FFF00')
+			|  Memory usage:&nbsp;{{status?.memoryUsage===false?"---":status?.memoryUsage}}%

@@ -1,0 +1,21 @@
+.box
+    .box-header.with-border
+        h3.box-title Top Domains
+    .box-body
+        .table-responsive
+            table.table.table-bordered
+                thead
+                    tr
+                        th Domain
+                        th Hits
+                        th Frequency
+                tbody
+                    tr(*ngFor="let domain of domains")
+                        td
+                            a {{domain.name}}
+                        td {{domain.value}}
+                        td
+                            .progress.progress-sm(title='{{domain.percentage.toFixed(2)}}%')
+                                .progress-bar([ngClass]="{'progress-bar-green':(type=='queries'),'progress-bar-red':(type=='ads')}",[ngStyle]="{'width': domain.percentage+'%'}")
+    .overlay(*ngIf="isLoading")
+        i.fa.fa-refresh.fa-spin

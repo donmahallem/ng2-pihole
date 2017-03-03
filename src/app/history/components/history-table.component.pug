@@ -1,0 +1,27 @@
+thead
+    tr
+        th Time
+        th Type
+        th Domain
+        th Client
+        th Status
+        th Action
+tbody
+    tr(*ngFor="let row of rows | slice:startIdx:endIdx")
+        td(title="{{row.timestamp}}") {{row.timestamp | momentjs:fromNow }}
+        td {{row.type}}
+        td {{row.domain}}
+        td b
+        td c
+        td e
+tfoot
+    tr
+        th Time
+        th Type
+        th Domain
+        th Client
+        th Status
+        th Action
+    tr
+        td(colspan="6")
+            pagination.pagination-sm([totalItems]="totalItems",[maxSize]="10",[boundaryLinks]="true",(pageChanged)="onPageChanged($event)",[itemsPerPage]="itemsPerPage")

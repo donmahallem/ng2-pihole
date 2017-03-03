@@ -1,0 +1,15 @@
+.row(summary=true)
+.row
+    .col-md-12
+        overtime-chart-box
+ng-container(*ngIf="isLoggedIn")
+    .row
+        .col-md-6
+            query-types-chart-box
+        .col-md-6
+            forward-destinations-chart-box
+    .row
+        .col-md-6
+            top-domains-box(statType="queries")
+        .col-md-6
+            top-domains-box(statType="ads")
