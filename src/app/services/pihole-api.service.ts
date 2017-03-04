@@ -12,6 +12,11 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { PiholeAuthService } from "./pihole-auth.service";
 import { PiholeBackendService } from "./pihole-backend.service";
+import {
+    OvertimeData,
+    TopItems,
+    Query
+} from "./models";
 
 export class Summary {
     adsBlockedToday: number;
@@ -25,14 +30,6 @@ export class AuthData {
     csrf_token: string;
 }
 
-export class OvertimeData {
-    ads: Map<Number, Number>;
-    queries: Map<Number, Number>;
-}
-export class Query {
-    domain: string;
-    timestamp: string;
-}
 export class Status {
     temperature: number | boolean;
     status: boolean;
@@ -48,11 +45,6 @@ export class QueryTypes {
 }
 export class ForwardDestinations {
     [name: string]: number;
-}
-
-export class TopItems {
-    topQueries: { [key: string]: number };
-    topAds: { [key: string]: number };
 }
 
 

@@ -3,7 +3,7 @@ import {
     Input,
     NgZone
 } from "@angular/core";
-import { Query } from "./../../services/pihole-api.service";
+import { Query } from "./../../services/models";
 import { PageChangedEvent } from "ng2-bootstrap/pagination/pagination.component";
 import * as moment from "moment";
 import { Observable } from 'rxjs/Observable';

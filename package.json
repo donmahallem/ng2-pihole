@@ -9,7 +9,7 @@
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "github": "ng build --aot --base-href /ng2-pihole/ --output-path /docs/"
+        "github": "ng build --aot --base-href /ng2-pihole/ --output-path ./docs"
     },
     "private": true,
     "dependencies": {

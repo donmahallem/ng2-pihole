@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { PiholeApiService } from "./../../services/pihole-api.service";
-import { Query } from "./../../services/pihole-api.service";
+import { Query } from "./../../services/models";
 @Component({
     templateUrl: "./history.component.pug",
 })

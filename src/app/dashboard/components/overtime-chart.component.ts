@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { LineChartBoxComponent } from "./line-chart-box.component"
-import { PiholeApiService, OvertimeData } from "./../../services/pihole-api.service";
+import { PiholeApiService } from "./../../services/pihole-api.service";
+import { OvertimeData } from "./../../services/models";
+
 const padNumber = function (num) {
     return ("00" + num)
         .substr(-2, 2);

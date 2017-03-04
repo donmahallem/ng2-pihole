@@ -1,8 +1,0 @@
-nav(aria-label='Page navigation')
-    ul.pagination
-        li(*ngFor="let item of items",[ngClass]="{'disabled':item.disabled}")
-            ng-container(*ngIf="item.disabled")
-                span(aria-hidden='true') {{item.title}}
-            ng-container(*ngIf="!item.disabled")
-                a((click)="onPageSelected(item)")
-                    span(aria-hidden='true') {{item.title}}

@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
     HistoryComponent,
-    HistoryTableComponent,
-    TablePaginationComponent
+    HistoryTableComponent
 } from "./components"
 import {
     AlertModule,
@@ -24,7 +23,6 @@ import { MomentJsPipe } from "./pipes";
     declarations: [
         HistoryComponent,
         HistoryTableComponent,
-        TablePaginationComponent,
         MomentJsPipe
     ], exports: [
 
