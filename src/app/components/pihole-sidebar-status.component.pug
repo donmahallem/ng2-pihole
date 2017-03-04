@@ -6,14 +6,14 @@
 		a(href='#')
 			i.fa.fa-circle(style='color:#7FFF00')
 			span {{status?.status}}
-		a(href='#',ng-style="{'color':(status?.temperature===false)?'#AAAAAA':false}")
-			i.fa.fa-fire(ng-style="{'color': (status?.temperature>60)?'#FF0000':'#3366FF'}")
-			|  Temp:&nbsp;{{status?.temperature===false?"---":status?.temperature}}
+		a(href='#',[ngStyle]="{'color':(status?.temperature===false)?'#AAAAAA':false}")
+			i.fa.fa-fire([ngStyle]="{'color': (status?.temperature>60)?'#FF0000':'#3366FF'}")
+			|  Temp:&nbsp;{{temperatureDisplay===false?"---":temperatureDisplay}}
 		br
-		a(href='#',ng-style="{'color':(status?.loadAverage===false)?'#AAAAAA':false}")
+		a(href='#',[ngStyle]="{'color':(status?.loadAverage===false)?'#AAAAAA':false}")
 			i.fa.fa-circle(style='color:#7FFF00')
-			|  Load:&nbsp;{{status?.loadAverage===false?"---":status?.loadAverage}}
+			|  Load:&nbsp;{{loadAverageDisplay===false?"---":loadAverageDisplay}}
 		br
-		a(href='#',ng-style="{'color':(status?.memoryUsage===false)?'#AAAAAA':false}")
+		a(href='#',[ngStyle]="{'color':(status?.memoryUsage===false)?'#AAAAAA':false}")
 			i.fa.fa-circle(style='color:#7FFF00')
-			|  Memory usage:&nbsp;{{status?.memoryUsage===false?"---":status?.memoryUsage}}%
+			|  Memory usage:&nbsp;{{memoryUsageDisplay===false?"---":memoryUsageDisplay}}

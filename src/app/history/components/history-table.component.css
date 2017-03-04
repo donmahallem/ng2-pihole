@@ -1,0 +1,14 @@
+.status-ok{
+    color:#008000;
+}
+.status-ok button{
+    color:#FF0000;
+}
+
+.status-blocked{
+    color:#FF0000;
+}
+
+.status-blocked button{
+    color:#008000;
+}

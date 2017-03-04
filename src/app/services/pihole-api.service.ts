@@ -16,20 +16,14 @@ import {
     OvertimeData,
     TopItems,
     Query,
-    Summary
+    Summary,
+    Status
 } from "./models";
 
 export class AuthData {
     access_token: string;
     refresh_token: string;
     csrf_token: string;
-}
-
-export class Status {
-    temperature: number | boolean;
-    status: boolean;
-    memory: number;
-    loadAverage: number;
 }
 export class ListEntry {
     domain: string;

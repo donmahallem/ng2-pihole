@@ -14,6 +14,14 @@ export class SummaryComponent {
     constructor(private piholeApi: PiholeApiService) {
         this.getSummary();
     }
+
+    private get adsPercentageDisplay(): string {
+        if (this.summary) {
+            return (this.summary.adsPercentage * 100).toFixed(2) + "%";
+        } else {
+            return "---";
+        }
+    }
     private getSummary() {
         if (!this.loading) {
             this.loading = true;

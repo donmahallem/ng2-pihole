@@ -7,13 +7,30 @@ thead
         th Status
         th Action
 tbody
-    tr(*ngFor="let row of rows | slice:startIdx:endIdx")
+    tr(*ngFor="let row of rows | slice:startIdx:endIdx",[ngClass]="{'status-ok':row.status==0,'status-blocked':row.status!=0}")
         td(title="{{row.timestamp}}") {{row.timestamp | momentjs:fromNow }}
         td {{row.type}}
         td {{row.domain}}
-        td b
-        td c
-        td e
+        td {{row.client}}
+        ng-container([ngSwitch]="row.status")
+            ng-container(*ngSwitchCase="0")
+                td OK
+                td
+                    button
+                        i.fa.fa-ban
+                        | Blacklist
+            ng-container(*ngSwitchCase="1")
+                td Pi-holed (exact)
+                td
+                    button
+                        i.fa.fa-pencil-square-o
+                        | Whitelist
+            ng-container(*ngSwitchCase="2")
+                td Pi-holed (Wildcard)
+                td
+                    button
+                        i.fa.fa-pencil-square-o
+                        | Whitelist
 tfoot
     tr
         th Time

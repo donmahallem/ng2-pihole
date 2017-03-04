@@ -3,6 +3,6 @@
 .col-lg-3.col-xs-12
 	.small-box.bg-green(smallbox=true,[box-title]="summary?.dnsQueriesToday||'---'",[loading]="loading",box-subtitle="DNS Queries Today",box-icon="ion-md-globe")
 .col-lg-3.col-xs-12
-	.small-box.bg-yellow(smallbox=true,[box-title]="summary?.domainsBeingBlocked||'---'",[loading]="loading",box-subtitle="Of Today's Queries Were Blocked",box-icon="ion-md-pie")
+	.small-box.bg-yellow(smallbox=true,[box-title]="adsPercentageDisplay||'---'",[loading]="loading",box-subtitle="Of Today's Queries Were Blocked",box-icon="ion-md-pie")
 .col-lg-3.col-xs-12
 	.small-box.bg-red(smallbox=true,[box-title]="summary?.domainsBeingBlocked||'---'",[loading]="loading",box-subtitle="Domains Being Blocked",box-icon="ion-md-list")
