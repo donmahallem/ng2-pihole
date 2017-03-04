@@ -1,4 +1,4 @@
-webpackJsonp([5,9],{
+webpackJsonp([4,9],{
 
 /***/ 101:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -179,7 +179,6 @@ var AdminLteSidebarMenuItemTreeComponent = (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pihole_auth_service__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pihole_backend_service__ = __webpack_require__(322);
-/* unused harmony export Summary */
 /* unused harmony export AuthData */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Status; });
 /* unused harmony export ListEntry */
@@ -197,11 +196,6 @@ var __extends = (this && this.__extends) || function (d, b) {
 
 
 
-var Summary = (function () {
-    function Summary() {
-    }
-    return Summary;
-}());
 var AuthData = (function () {
     function AuthData() {
     }
@@ -988,7 +982,7 @@ var SummaryComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__services_pihole_api_service__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs__ = __webpack_require__(686);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs__ = __webpack_require__(687);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_zip__ = __webpack_require__(455);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_zip___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_zip__);
@@ -3150,19 +3144,19 @@ var BoxDirective = (function () {
 
 var map = {
 	"app/history/history.module.ngfactory": [
-		962,
+		963,
 		3
 	],
 	"app/lists/lists.module.ngfactory": [
-		963,
+		964,
 		0
 	],
 	"app/login/login.module.ngfactory": [
-		964,
+		965,
 		1
 	],
 	"app/settings/settings.module.ngfactory": [
-		965,
+		966,
 		2
 	]
 };
@@ -3188,7 +3182,7 @@ webpackAsyncContext.id = 481;
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__environments_environment__ = __webpack_require__(612);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__environments_environment__ = __webpack_require__(613);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__(205);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__gendir_app_modules_app_module_ngfactory__ = __webpack_require__(590);
 
@@ -11842,21 +11836,21 @@ function mockFactory(backend, options, realBackend) {
             }
             else if (connection.request.url.endsWith("/api/data/summary") && connection.request.method === __WEBPACK_IMPORTED_MODULE_0__angular_http__["RequestMethod"].Get) {
                 // get parameters from post request
+                var summary = new __WEBPACK_IMPORTED_MODULE_2__models__["a" /* Summary */]();
+                summary.adsBlockedToday = 100;
+                summary.dnsQueriesToday = 1000;
+                summary.domainsBeingBlocked = 100000;
                 var response = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["Response"](new __WEBPACK_IMPORTED_MODULE_0__angular_http__["ResponseOptions"]({
                     status: 200,
                     body: {
-                        data: {
-                            adsBlockedToday: 100,
-                            dnsQueriesToday: 1000,
-                            domainsBeingBlocked: 100000
-                        }
+                        data: summary
                     }
                 }));
                 connection.mockRespond(response);
             }
             else if (connection.request.url.endsWith("/api/data/overtimeData") && connection.request.method === __WEBPACK_IMPORTED_MODULE_0__angular_http__["RequestMethod"].Get) {
                 // get parameters from post request
-                var overtimeData = new __WEBPACK_IMPORTED_MODULE_2__models__["a" /* OvertimeData */]();
+                var overtimeData = new __WEBPACK_IMPORTED_MODULE_2__models__["b" /* OvertimeData */]();
                 for (var i = 0; i < 120; i++) {
                     overtimeData.queries[i] = Math.round(Math.random() * 1000);
                     overtimeData.ads[i] = Math.round(Math.random() * overtimeData.queries[i]);
@@ -11891,11 +11885,14 @@ var MockPiholeBackendService = {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__overtime_data_model__ = __webpack_require__(609);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__overtime_data_model__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__top_items_model__ = __webpack_require__(611);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__overtime_data_model__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__top_items_model__ = __webpack_require__(612);
 /* unused harmony reexport TopItems */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__query_model__ = __webpack_require__(610);
 /* unused harmony reexport Query */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__summary_model__ = __webpack_require__(611);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__summary_model__["a"]; });
+
 
 
 
@@ -11937,6 +11934,27 @@ var Query = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Summary; });
+var Summary = (function () {
+    function Summary() {
+    }
+    Object.defineProperty(Summary.prototype, "adsPercentage", {
+        get: function () {
+            return this.adsBlockedToday / this.dnsQueriesToday;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Summary;
+}());
+//# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/summary.model.js.map
+
+/***/ }),
+
+/***/ 612:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* unused harmony export TopItems */
 var TopItems = (function () {
     function TopItems() {
@@ -11947,7 +11965,7 @@ var TopItems = (function () {
 
 /***/ }),
 
-/***/ 612:
+/***/ 613:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12068,7 +12086,7 @@ var Wrapper_BoxDirective = (function () {
 
 /***/ }),
 
-/***/ 677:
+/***/ 678:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -12303,12 +12321,12 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 677;
+webpackContext.id = 678;
 
 
 /***/ }),
 
-/***/ 958:
+/***/ 959:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(482);
@@ -12381,5 +12399,5 @@ var Wrapper_NgClass = (function () {
 
 /***/ })
 
-},[958]);
+},[959]);
 //# sourceMappingURL=main.bundle.map

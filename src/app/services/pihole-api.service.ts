@@ -15,14 +15,9 @@ import { PiholeBackendService } from "./pihole-backend.service";
 import {
     OvertimeData,
     TopItems,
-    Query
+    Query,
+    Summary
 } from "./models";
-
-export class Summary {
-    adsBlockedToday: number;
-    dnsQueriesToday: number;
-    domainsBeingBlocked: number;
-}
 
 export class AuthData {
     access_token: string;

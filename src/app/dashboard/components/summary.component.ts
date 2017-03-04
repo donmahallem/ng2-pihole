@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { PiholeApiService, Summary } from './../../services/pihole-api.service';
+import { PiholeApiService } from './../../services/pihole-api.service';
+import { Summary } from './../../services/models';
 
 @Component({
     selector: '.row[summary]',

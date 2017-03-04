@@ -11,7 +11,10 @@ import {
     MockBackend,
     MockConnection
 } from "@angular/http/testing";
-import { OvertimeData } from "./models";
+import {
+    OvertimeData,
+    Summary
+} from "./models";
 
 export function mockFactory(backend: MockBackend, options: BaseRequestOptions, realBackend: XHRBackend) {
     console.log("Mock Backend Setup");
@@ -45,14 +48,14 @@ export function mockFactory(backend: MockBackend, options: BaseRequestOptions, r
                 }
             } else if (connection.request.url.endsWith("/api/data/summary") && connection.request.method === RequestMethod.Get) {
                 // get parameters from post request
+                let summary = new Summary();
+                summary.adsBlockedToday = 100;
+                summary.dnsQueriesToday = 1000;
+                summary.domainsBeingBlocked = 100000;
                 let response = new Response(new ResponseOptions({
                     status: 200,
                     body: {
-                        data: {
-                            adsBlockedToday: 100,
-                            dnsQueriesToday: 1000,
-                            domainsBeingBlocked: 100000
-                        }
+                        data: summary
                     }
                 }));
                 connection.mockRespond(response);
