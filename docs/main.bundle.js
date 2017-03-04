@@ -988,7 +988,7 @@ var SummaryComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__services_pihole_api_service__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs__ = __webpack_require__(682);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs__ = __webpack_require__(686);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_zip__ = __webpack_require__(455);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_zip___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_zip__);
@@ -3150,19 +3150,19 @@ var BoxDirective = (function () {
 
 var map = {
 	"app/history/history.module.ngfactory": [
-		958,
+		962,
 		3
 	],
 	"app/lists/lists.module.ngfactory": [
-		959,
+		963,
 		0
 	],
 	"app/login/login.module.ngfactory": [
-		960,
+		964,
 		1
 	],
 	"app/settings/settings.module.ngfactory": [
-		961,
+		965,
 		2
 	]
 };
@@ -3188,7 +3188,7 @@ webpackAsyncContext.id = 481;
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__environments_environment__ = __webpack_require__(608);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__environments_environment__ = __webpack_require__(612);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__(205);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__gendir_app_modules_app_module_ngfactory__ = __webpack_require__(590);
 
@@ -11803,8 +11803,10 @@ var PiholeRoutingModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http_testing__ = __webpack_require__(545);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http_testing___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__angular_http_testing__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models__ = __webpack_require__(608);
 /* harmony export (immutable) */ __webpack_exports__["a"] = mockFactory;
 /* unused harmony export MockPiholeBackendService */
+
 
 
 function mockFactory(backend, options, realBackend) {
@@ -11852,6 +11854,20 @@ function mockFactory(backend, options, realBackend) {
                 }));
                 connection.mockRespond(response);
             }
+            else if (connection.request.url.endsWith("/api/data/overtimeData") && connection.request.method === __WEBPACK_IMPORTED_MODULE_0__angular_http__["RequestMethod"].Get) {
+                // get parameters from post request
+                var overtimeData = new __WEBPACK_IMPORTED_MODULE_2__models__["a" /* OvertimeData */]();
+                for (var i = 0; i < 120; i++) {
+                    overtimeData.queries[i] = Math.round(Math.random() * 1000);
+                    overtimeData.ads[i] = Math.round(Math.random() * overtimeData.queries[i]);
+                }
+                var response = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["Response"](new __WEBPACK_IMPORTED_MODULE_0__angular_http__["ResponseOptions"]({
+                    status: 200, body: {
+                        data: overtimeData
+                    }
+                }));
+                connection.mockRespond(response);
+            }
             else {
                 connection.mockError(new Error("404"));
             }
@@ -11871,6 +11887,67 @@ var MockPiholeBackendService = {
 /***/ }),
 
 /***/ 608:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__overtime_data_model__ = __webpack_require__(609);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__overtime_data_model__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__top_items_model__ = __webpack_require__(611);
+/* unused harmony reexport TopItems */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__query_model__ = __webpack_require__(610);
+/* unused harmony reexport Query */
+
+
+
+//# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/index.js.map
+
+/***/ }),
+
+/***/ 609:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OvertimeData; });
+var OvertimeData = (function () {
+    function OvertimeData() {
+        this.ads = new Map();
+        this.queries = new Map();
+    }
+    return OvertimeData;
+}());
+//# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/overtime-data.model.js.map
+
+/***/ }),
+
+/***/ 610:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export Query */
+var Query = (function () {
+    function Query() {
+    }
+    return Query;
+}());
+//# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/query.model.js.map
+
+/***/ }),
+
+/***/ 611:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export TopItems */
+var TopItems = (function () {
+    function TopItems() {
+    }
+    return TopItems;
+}());
+//# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/top-items.model.js.map
+
+/***/ }),
+
+/***/ 612:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11991,7 +12068,7 @@ var Wrapper_BoxDirective = (function () {
 
 /***/ }),
 
-/***/ 673:
+/***/ 677:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -12226,12 +12303,12 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 673;
+webpackContext.id = 677;
 
 
 /***/ }),
 
-/***/ 954:
+/***/ 958:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(482);
@@ -12304,5 +12381,5 @@ var Wrapper_NgClass = (function () {
 
 /***/ })
 
-},[954]);
+},[958]);
 //# sourceMappingURL=main.bundle.map

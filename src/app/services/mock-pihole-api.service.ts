@@ -11,6 +11,7 @@ import {
     MockBackend,
     MockConnection
 } from "@angular/http/testing";
+import { OvertimeData } from "./models";
 
 export function mockFactory(backend: MockBackend, options: BaseRequestOptions, realBackend: XHRBackend) {
     console.log("Mock Backend Setup");
@@ -52,6 +53,19 @@ export function mockFactory(backend: MockBackend, options: BaseRequestOptions, r
                             dnsQueriesToday: 1000,
                             domainsBeingBlocked: 100000
                         }
+                    }
+                }));
+                connection.mockRespond(response);
+            } else if (connection.request.url.endsWith("/api/data/overtimeData") && connection.request.method === RequestMethod.Get) {
+                // get parameters from post request
+                let overtimeData = new OvertimeData();
+                for (let i = 0; i < 120; i++) {
+                    overtimeData.queries[i] = Math.round(Math.random() * 1000);
+                    overtimeData.ads[i] = Math.round(Math.random() * overtimeData.queries[i]);
+                }
+                let response = new Response(new ResponseOptions({
+                    status: 200, body: {
+                        data: overtimeData
                     }
                 }));
                 connection.mockRespond(response);
