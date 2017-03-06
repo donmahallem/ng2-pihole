@@ -1,26 +1,26 @@
 webpackJsonp([3,9],{
 
-/***/ 965:
+/***/ 966:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core_src_linker_ng_module_factory__ = __webpack_require__(127);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_history_history_module__ = __webpack_require__(507);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_history_history_module__ = __webpack_require__(508);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_src_common_module__ = __webpack_require__(260);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router_src_router_module__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_history_history_routing_module__ = __webpack_require__(506);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_alert_alert_module__ = __webpack_require__(498);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_bootstrap_pagination_pagination_module__ = __webpack_require__(499);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router_src_router_module__ = __webpack_require__(177);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_history_history_routing_module__ = __webpack_require__(507);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_alert_alert_module__ = __webpack_require__(499);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_bootstrap_pagination_pagination_module__ = __webpack_require__(500);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_forms_src_directives__ = __webpack_require__(261);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_forms_src_form_providers__ = __webpack_require__(262);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_common_src_localization__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_forms_src_form_builder__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_forms_src_directives_radio_control_value_accessor__ = __webpack_require__(76);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_history_component_ngfactory__ = __webpack_require__(501);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_history_component_ngfactory__ = __webpack_require__(502);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__gendir_node_modules_ng2_bootstrap_alert_alert_component_ngfactory__ = __webpack_require__(264);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_core_src_i18n_tokens__ = __webpack_require__(175);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__app_history_components_history_component__ = __webpack_require__(177);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_core_src_i18n_tokens__ = __webpack_require__(176);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__app_history_components_history_component__ = __webpack_require__(178);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__angular_router_src_router_config_loader__ = __webpack_require__(77);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HistoryModuleNgFactory", function() { return HistoryModuleNgFactory; });
 /**
@@ -29,11 +29,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  * @suppress {suspiciousCode,uselessCode,missingProperties}
  */
 /* tslint:disable */
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
 
 
@@ -54,10 +59,10 @@ var __extends = (this && this.__extends) || function (d, b) {
 var HistoryModuleInjector = (function (_super) {
     __extends(HistoryModuleInjector, _super);
     function HistoryModuleInjector(parent) {
-        _super.call(this, parent, [
+        return _super.call(this, parent, [
             __WEBPACK_IMPORTED_MODULE_12__components_history_component_ngfactory__["a" /* HistoryComponentNgFactory */],
             __WEBPACK_IMPORTED_MODULE_13__gendir_node_modules_ng2_bootstrap_alert_alert_component_ngfactory__["a" /* AlertComponentNgFactory */]
-        ], []);
+        ], []) || this;
     }
     Object.defineProperty(HistoryModuleInjector.prototype, "_NgLocalization_8", {
         get: function () {
@@ -105,7 +110,7 @@ var HistoryModuleInjector = (function (_super) {
     });
     HistoryModuleInjector.prototype.createInternal = function () {
         this._CommonModule_0 = new __WEBPACK_IMPORTED_MODULE_2__angular_common_src_common_module__["a" /* CommonModule */]();
-        this._RouterModule_1 = new __WEBPACK_IMPORTED_MODULE_3__angular_router_src_router_module__["g" /* RouterModule */](this.parent.get(__WEBPACK_IMPORTED_MODULE_3__angular_router_src_router_module__["j" /* ROUTER_FORROOT_GUARD */], null));
+        this._RouterModule_1 = new __WEBPACK_IMPORTED_MODULE_3__angular_router_src_router_module__["g" /* RouterModule */](this.parent.get(__WEBPACK_IMPORTED_MODULE_3__angular_router_src_router_module__["h" /* ROUTER_FORROOT_GUARD */], null));
         this._HistoryRoutingModule_2 = new __WEBPACK_IMPORTED_MODULE_4__app_history_history_routing_module__["a" /* HistoryRoutingModule */]();
         this._AlertModule_3 = new __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_alert_alert_module__["a" /* AlertModule */]();
         this._PaginationModule_4 = new __WEBPACK_IMPORTED_MODULE_6_ng2_bootstrap_pagination_pagination_module__["a" /* PaginationModule */]();
@@ -163,4 +168,4 @@ var HistoryModuleNgFactory = new __WEBPACK_IMPORTED_MODULE_0__angular_core_src_l
 /***/ })
 
 });
-//# sourceMappingURL=3.bundle.map
+//# sourceMappingURL=3.chunk.js.map

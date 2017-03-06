@@ -21,8 +21,8 @@ export class ListsComponent {
     @Input()
     protected domain: string;
     protected domainList: ListEntry[] = [];
-    protected isUnknownList: boolean = false;
-    protected isRequesting: boolean = false;
+    private _refreshing: boolean = false;
+    private _error: Error;
     @ContentChild(AlertComponent)
     protected alertMsg: AlertComponent;
     private statusType: string = "success";
@@ -34,27 +34,33 @@ export class ListsComponent {
         private activatedRoute: ActivatedRoute,
         private zone: NgZone) {
         this.selectedList = activatedRoute.snapshot.data["type"];
-        this.refreshList();
-        // subscribe to router event
-        /*
-        this.queryParamSubscription = this.activatedRoute.queryParams.subscribe((params: Params) => {
-            this.list = params["l"];
-        });*/
-        console.log("displaying list", this.selectedList);
+    }
+
+    public get refreshing(): boolean {
+        return this._refreshing;
     }
 
     private set selectedList(selectedList: string) {
         this._selectedList = selectedList;
-        this.refreshList();
+        this.refresh();
     }
 
     private get selectedList(): string {
         return this._selectedList;
     }
 
-    public refreshList() {
-        if (!this.isRequesting) {
-            this.isRequesting = true;
+    private get error(): Error {
+        return this._error;
+    }
+
+    public get hasError(): boolean {
+        return this._error != null;
+    }
+
+    public refresh() {
+        if (!this.refreshing) {
+            this._refreshing = true;
+            this._error = null;
             this.piholeApi
                 .getList(this.selectedList)
                 .subscribe(
@@ -64,9 +70,9 @@ export class ListsComponent {
                     });
                 },
                 error => {
-                    console.log(error);
+                    this._error = error;
                 }, () => {
-                    this.isRequesting = false;
+                    this._refreshing = false;
                 })
         }
     }

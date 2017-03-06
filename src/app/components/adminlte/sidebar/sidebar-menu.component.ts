@@ -13,7 +13,8 @@ import { AdminLteSidebarMenuTreeSubparentComponent } from "./sidebar-menu-tree-s
 @Component({
     selector: "ul.sidebar-menu",
     templateUrl: "./sidebar-menu-tree-parent.component.pug",
-    providers: []
+    providers: [],
+    moduleId: module.id
 })
 export class AdminLteSidebarMenuComponent extends AdminLteSidebarMenuTreeParent {
     constructor() {

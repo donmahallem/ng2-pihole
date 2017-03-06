@@ -152,7 +152,6 @@ export class OvertimeChartComponent extends LineChartBoxComponent {
         this.chartDatasets[0].data = datasets[0];
         this.chartDatasets[1].data = datasets[1];
         this.chartLabels = labels;
-        this.isLoading = false;
     }
 
     private onError(error: Error) {

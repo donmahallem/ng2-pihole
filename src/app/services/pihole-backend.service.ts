@@ -16,7 +16,7 @@ export abstract class PiholeBackendService {
         let body = res.json();
         return body.data || {};
     }
-    protected handleError(error: Response | any): ErrorObservable<string> {
+    protected handleError(error: Response | any): ErrorObservable {
         let errMsg: string;
         if (error instanceof Response) {
             const body = error.json() || "";

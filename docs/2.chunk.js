@@ -1,24 +1,24 @@
 webpackJsonp([2,9],{
 
-/***/ 968:
+/***/ 969:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core_src_linker_ng_module_factory__ = __webpack_require__(127);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_settings_settings_module__ = __webpack_require__(509);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_settings_settings_module__ = __webpack_require__(510);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_src_common_module__ = __webpack_require__(260);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms_src_directives__ = __webpack_require__(261);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_forms_src_form_providers__ = __webpack_require__(262);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router_src_router_module__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_settings_settings_routing_module__ = __webpack_require__(508);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_modules_adminlte_box_box_module__ = __webpack_require__(497);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router_src_router_module__ = __webpack_require__(177);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_settings_settings_routing_module__ = __webpack_require__(509);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_modules_adminlte_box_box_module__ = __webpack_require__(498);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_common_src_localization__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_forms_src_form_builder__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_forms_src_directives_radio_control_value_accessor__ = __webpack_require__(76);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_settings_component_ngfactory__ = __webpack_require__(502);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_core_src_i18n_tokens__ = __webpack_require__(175);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__app_settings_components_settings_component__ = __webpack_require__(179);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_settings_component_ngfactory__ = __webpack_require__(503);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_core_src_i18n_tokens__ = __webpack_require__(176);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__app_settings_components_settings_component__ = __webpack_require__(180);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_router_src_router_config_loader__ = __webpack_require__(77);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingsModuleNgFactory", function() { return SettingsModuleNgFactory; });
 /**
@@ -27,11 +27,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  * @suppress {suspiciousCode,uselessCode,missingProperties}
  */
 /* tslint:disable */
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
 
 
@@ -50,7 +55,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var SettingsModuleInjector = (function (_super) {
     __extends(SettingsModuleInjector, _super);
     function SettingsModuleInjector(parent) {
-        _super.call(this, parent, [__WEBPACK_IMPORTED_MODULE_11__components_settings_component_ngfactory__["a" /* SettingsComponentNgFactory */]], []);
+        return _super.call(this, parent, [__WEBPACK_IMPORTED_MODULE_11__components_settings_component_ngfactory__["a" /* SettingsComponentNgFactory */]], []) || this;
     }
     Object.defineProperty(SettingsModuleInjector.prototype, "_NgLocalization_7", {
         get: function () {
@@ -100,7 +105,7 @@ var SettingsModuleInjector = (function (_super) {
         this._CommonModule_0 = new __WEBPACK_IMPORTED_MODULE_2__angular_common_src_common_module__["a" /* CommonModule */]();
         this._InternalFormsSharedModule_1 = new __WEBPACK_IMPORTED_MODULE_3__angular_forms_src_directives__["a" /* InternalFormsSharedModule */]();
         this._ReactiveFormsModule_2 = new __WEBPACK_IMPORTED_MODULE_4__angular_forms_src_form_providers__["a" /* ReactiveFormsModule */]();
-        this._RouterModule_3 = new __WEBPACK_IMPORTED_MODULE_5__angular_router_src_router_module__["g" /* RouterModule */](this.parent.get(__WEBPACK_IMPORTED_MODULE_5__angular_router_src_router_module__["j" /* ROUTER_FORROOT_GUARD */], null));
+        this._RouterModule_3 = new __WEBPACK_IMPORTED_MODULE_5__angular_router_src_router_module__["g" /* RouterModule */](this.parent.get(__WEBPACK_IMPORTED_MODULE_5__angular_router_src_router_module__["h" /* ROUTER_FORROOT_GUARD */], null));
         this._SettingsRoutingModule_4 = new __WEBPACK_IMPORTED_MODULE_6__app_settings_settings_routing_module__["a" /* SettingsRoutingModule */]();
         this._BoxModule_5 = new __WEBPACK_IMPORTED_MODULE_7__app_modules_adminlte_box_box_module__["a" /* BoxModule */]();
         this._SettingsModule_6 = new __WEBPACK_IMPORTED_MODULE_1__app_settings_settings_module__["a" /* SettingsModule */]();
@@ -152,4 +157,4 @@ var SettingsModuleNgFactory = new __WEBPACK_IMPORTED_MODULE_0__angular_core_src_
 /***/ })
 
 });
-//# sourceMappingURL=2.bundle.map
+//# sourceMappingURL=2.chunk.js.map

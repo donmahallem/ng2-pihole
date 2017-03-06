@@ -15,34 +15,38 @@ import {
     providers: [Location, { provide: LocationStrategy, useClass: PathLocationStrategy }]
 })
 export class LoginComponent {
-    protected isRequesting: boolean = false;
-    protected wrongPassword: boolean = false;
+    private _isRequesting: boolean = false;
+    private _wrongPassword: boolean = false;
+
     private loginForm: FormGroup;
     constructor(private piholeAuth: PiholeAuthService, private router: Router, private formBuiler: FormBuilder) {
         this.loginForm = new FormGroup({
             password: new FormControl("", Validators.required)
         });
     }
+
+    public get isRequesting(): boolean {
+        return this._isRequesting;
+    }
+
+    public get wrongPassword(): boolean {
+        return this._wrongPassword;
+    }
+
     protected login({ value, valid }: { value: { password: string }, valid: boolean }) {
-        console.log(value, valid);
         if (valid) {
-            this.isRequesting = true;
+            this._isRequesting = true;
             this.piholeAuth
                 .login(value.password)
-                .subscribe(this.onLoginSuccess.bind(this),
-                this.onLoginError.bind(this));
+                .subscribe(data => {
+                    this._wrongPassword = false;
+                    this.router.navigate(["/"]);
+                },
+                error => {
+                    this._wrongPassword = true;
+                }, () => {
+                    this._isRequesting = false;
+                });
         }
-    }
-
-    private onLoginError(error: Error) {
-        this.wrongPassword = true;
-        this.isRequesting = false;
-        console.log("login error", error);
-    }
-
-    private onLoginSuccess(data) {
-        this.wrongPassword = false;
-        this.isRequesting = false;
-        this.router.navigate(["/"]);
     }
 }

@@ -106,7 +106,7 @@ export class PiholeAuthService extends PiholeBackendService {
             .catch(this.handleError);
     }
 
-    protected handleError(error: Response | any): ErrorObservable<string> {
+    protected handleError(error: Response | any): ErrorObservable {
         if (error instanceof Response && error.status == 401) {
             this.loggedIn = false;
         }

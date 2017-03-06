@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
 export abstract class AbstractChartBoxComponent {
-    protected isLoading: boolean = false;
-    protected chartType: string;
+    private _isLoading: boolean = false;
+    private _chartType: string;
     protected chartColors: Array<any>;
     protected chartOptions: any;
     protected title: string = "Box Title";
@@ -25,6 +25,14 @@ export abstract class AbstractChartBoxComponent {
         "#222222",
         "#d2d6de"];
     constructor(type: string) {
-        this.chartType = type;
+        this._chartType = type;
+    }
+
+    public get chartType(): string {
+        return this._chartType;
+    }
+
+    public get isLoading(): boolean {
+        return this._isLoading;
     }
 }
