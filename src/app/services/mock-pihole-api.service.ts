@@ -15,7 +15,8 @@ import {
     OvertimeData,
     Summary,
     Query,
-    Status
+    Status,
+    QueryTypes
 } from "./models";
 
 function randomChoice(arr: any[]): any {
@@ -115,6 +116,17 @@ export function mockFactory(backend: MockBackend, options: BaseRequestOptions, r
                 status.status = true;
                 status.loadAverage = [Math.random(), Math.random(), Math.random()];
                 status.memory = Math.random();
+                let response = new Response(new ResponseOptions({
+                    status: 200, body: {
+                        data: status
+                    }
+                }));
+                connection.mockRespond(response);
+            } else if (connection.request.url.endsWith("/api/data/queryTypes") && connection.request.method === RequestMethod.Get) {
+                // get parameters from post request
+                let status = new QueryTypes();
+                status["A"] = Math.round(Math.random() * 10000);
+                status["AAAA"] = Math.round(Math.random() * 10000);
                 let response = new Response(new ResponseOptions({
                     status: 200, body: {
                         data: status

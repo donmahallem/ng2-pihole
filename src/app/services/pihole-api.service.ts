@@ -17,7 +17,8 @@ import {
     TopItems,
     Query,
     Summary,
-    Status
+    Status,
+    QueryTypes
 } from "./models";
 
 export class AuthData {
@@ -28,9 +29,6 @@ export class AuthData {
 export class ListEntry {
     domain: string;
     type: number;
-}
-export class QueryTypes {
-    [name: string]: number;
 }
 export class ForwardDestinations {
     [name: string]: number;

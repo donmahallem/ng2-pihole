@@ -202,7 +202,6 @@ var AdminLteSidebarMenuItemTreeComponent = (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pihole_backend_service__ = __webpack_require__(324);
 /* unused harmony export AuthData */
 /* unused harmony export ListEntry */
-/* unused harmony export QueryTypes */
 /* unused harmony export ForwardDestinations */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PiholeApiService; });
 var __extends = (this && this.__extends) || (function () {
@@ -231,12 +230,6 @@ var ListEntry = (function () {
     function ListEntry() {
     }
     return ListEntry;
-}());
-
-var QueryTypes = (function () {
-    function QueryTypes() {
-    }
-    return QueryTypes;
 }());
 
 var ForwardDestinations = (function () {
@@ -1225,7 +1218,7 @@ var SummaryComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__services_pihole_api_service__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs__ = __webpack_require__(690);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs__ = __webpack_require__(691);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_zip__ = __webpack_require__(457);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_zip___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_zip__);
@@ -3167,14 +3160,17 @@ var SmallboxComponent = (function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__overtime_data_model__ = __webpack_require__(611);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__overtime_data_model__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__top_items_model__ = __webpack_require__(615);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__top_items_model__ = __webpack_require__(616);
 /* unused harmony reexport TopItems */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__query_model__ = __webpack_require__(612);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_2__query_model__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__summary_model__ = __webpack_require__(614);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__query_model__ = __webpack_require__(613);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_2__query_model__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__summary_model__ = __webpack_require__(615);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__summary_model__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__status_model__ = __webpack_require__(613);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__status_model__ = __webpack_require__(614);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_4__status_model__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__query_types_model__ = __webpack_require__(612);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_5__query_types_model__["a"]; });
+
 
 
 
@@ -3486,19 +3482,19 @@ var BoxDirective = (function () {
 
 var map = {
 	"app/history/history.module.ngfactory": [
-		966,
+		967,
 		3
 	],
 	"app/lists/lists.module.ngfactory": [
-		967,
+		968,
 		0
 	],
 	"app/login/login.module.ngfactory": [
-		968,
+		969,
 		1
 	],
 	"app/settings/settings.module.ngfactory": [
-		969,
+		970,
 		2
 	]
 };
@@ -3524,7 +3520,7 @@ webpackAsyncContext.id = 484;
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__environments_environment__ = __webpack_require__(616);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__environments_environment__ = __webpack_require__(617);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__(206);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__gendir_app_modules_app_module_ngfactory__ = __webpack_require__(594);
 
@@ -12641,13 +12637,25 @@ function mockFactory(backend, options, realBackend) {
                 }));
                 connection.mockRespond(response);
             }
+            else if (connection.request.url.endsWith("/api/data/queryTypes") && connection.request.method === __WEBPACK_IMPORTED_MODULE_0__angular_http__["RequestMethod"].Get) {
+                // get parameters from post request
+                var status = new __WEBPACK_IMPORTED_MODULE_2__models__["d" /* QueryTypes */]();
+                status["A"] = Math.round(Math.random() * 10000);
+                status["AAAA"] = Math.round(Math.random() * 10000);
+                var response = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["Response"](new __WEBPACK_IMPORTED_MODULE_0__angular_http__["ResponseOptions"]({
+                    status: 200, body: {
+                        data: status
+                    }
+                }));
+                connection.mockRespond(response);
+            }
             else if (connection.request.url.match(/\/api\/history\??/) && connection.request.method === __WEBPACK_IMPORTED_MODULE_0__angular_http__["RequestMethod"].Get) {
                 // get parameters from post request
                 var queries = [];
                 var DAY = 24 * 60 * 60 * 1000;
                 var min = Date.now() - DAY;
                 for (var i = 0; i < 10000; i++) {
-                    var query = new __WEBPACK_IMPORTED_MODULE_2__models__["d" /* Query */]();
+                    var query = new __WEBPACK_IMPORTED_MODULE_2__models__["e" /* Query */]();
                     query.domain = function generateRandomDomain() {
                         var domain = "";
                         for (var i_1 = 0; i_1 < randomInt(1, 3); i_1++) {
@@ -12707,6 +12715,21 @@ var OvertimeData = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return QueryTypes; });
+var QueryTypes = (function () {
+    function QueryTypes() {
+    }
+    return QueryTypes;
+}());
+
+//# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/query-types.model.js.map
+
+/***/ }),
+
+/***/ 613:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Query; });
 var Query = (function () {
     function Query() {
@@ -12718,7 +12741,7 @@ var Query = (function () {
 
 /***/ }),
 
-/***/ 613:
+/***/ 614:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12733,7 +12756,7 @@ var Status = (function () {
 
 /***/ }),
 
-/***/ 614:
+/***/ 615:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12758,7 +12781,7 @@ var Summary = (function () {
 
 /***/ }),
 
-/***/ 615:
+/***/ 616:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12773,7 +12796,7 @@ var TopItems = (function () {
 
 /***/ }),
 
-/***/ 616:
+/***/ 617:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12897,7 +12920,7 @@ var Wrapper_BoxDirective = (function () {
 
 /***/ }),
 
-/***/ 681:
+/***/ 682:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -13132,7 +13155,7 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 681;
+webpackContext.id = 682;
 
 
 /***/ }),
@@ -13203,7 +13226,7 @@ var Wrapper_NgClass = (function () {
 
 /***/ }),
 
-/***/ 962:
+/***/ 963:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(485);
@@ -13211,5 +13234,5 @@ module.exports = __webpack_require__(485);
 
 /***/ })
 
-},[962]);
+},[963]);
 //# sourceMappingURL=main.bundle.js.map
