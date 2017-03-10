@@ -7,7 +7,7 @@ import { PiholeApiService } from "./../../services/pihole-api.service";
 
 @Component({
     selector: 'query-types-chart-box',
-    templateUrl: "./doughnut-chart-box.component.pug"
+    templateUrl: "./doughnut-chart-box.component.html"
 })
 export class QueryTypesChartComponent extends DoughnutChartBoxComponent {
 

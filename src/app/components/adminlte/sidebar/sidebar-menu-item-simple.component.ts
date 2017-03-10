@@ -6,7 +6,7 @@ import { MenuItemSimple } from "./sidebar-menu.models";
 import { Subscription } from 'rxjs/Subscription.js'
 @Component({
     selector: "li[sidebar-menu-item-simple]",
-    templateUrl: "./sidebar-menu-item-simple.component.pug",
+    templateUrl: "./sidebar-menu-item-simple.component.html",
 })
 export class AdminLteSidebarMenuItemSimpleComponent extends AdminLteSidebarMenuItemComponent<MenuItemSimple>{
     constructor(private router: Router) {

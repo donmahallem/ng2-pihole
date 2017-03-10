@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: "dhcp-settings",
-    templateUrl: "./dhcp-settings.component.pug",
+    templateUrl: "./dhcp-settings.component.html",
 })
 export class DhcpSettingsComponent {
     private dhcpForm: FormGroup;

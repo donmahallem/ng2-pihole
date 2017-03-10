@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { PiholeAuthService } from "./../services/pihole-auth.service";
 
 @Component({
-    templateUrl: "./pihole-login.component.pug",
+    templateUrl: "./pihole-login.component.html",
     providers: [Location, { provide: LocationStrategy, useClass: PathLocationStrategy }]
 })
 export class PiholeLoginComponent {

@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 @Component({
     selector: "networking-settings",
-    templateUrl: "./networking-settings.component.pug",
+    templateUrl: "./networking-settings.component.html",
 })
 export class NetworkingSettingsComponent {
     private interface: string;

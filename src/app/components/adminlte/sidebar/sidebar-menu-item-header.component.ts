@@ -5,7 +5,7 @@ import { MenuItemHeader } from "./sidebar-menu.models";
 
 @Component({
     selector: "li[sidebar-menu-item-header]",
-    templateUrl: "./sidebar-menu-item-header.component.pug",
+    templateUrl: "./sidebar-menu-item-header.component.html",
     host: { "class": "header" }
 })
 export class AdminLteSidebarMenuItemHeaderComponent extends AdminLteSidebarMenuItemComponent<MenuItemHeader>{

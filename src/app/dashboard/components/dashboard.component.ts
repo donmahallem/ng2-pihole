@@ -3,7 +3,7 @@ import { PiholeAuthService } from "./../../services/pihole-auth.service";
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-    templateUrl: "./dashboard.component.pug"
+    templateUrl: "./dashboard.component.html"
 })
 export class DashboardComponent {
     private isLoggedIn: boolean;

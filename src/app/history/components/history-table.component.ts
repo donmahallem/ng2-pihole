@@ -22,7 +22,7 @@ function sortByDate(asc: boolean = true) {
 
 @Component({
     selector: "table[queries-table]",
-    templateUrl: "./history-table.component.pug",
+    templateUrl: "./history-table.component.html",
     styleUrls: ["./history-table.component.css"]
 })
 export class HistoryTableComponent {

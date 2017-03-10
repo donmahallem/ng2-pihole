@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 
 @Component({
-    templateUrl: "./login.component.pug",
+    templateUrl: "./login.component.html",
     providers: [Location, { provide: LocationStrategy, useClass: PathLocationStrategy }]
 })
 export class LoginComponent {

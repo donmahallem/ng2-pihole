@@ -40,7 +40,7 @@ const MENUITEMS_LOGEDOUT: MenuItem[] = [
 ];
 @Component({
     selector: 'pihole-sidebar',
-    templateUrl: "./pihole-sidebar.component.pug"
+    templateUrl: "./pihole-sidebar.component.html"
 })
 export class PiholeSidebarComponent {
     menuItems: Array<MenuItem> = [];

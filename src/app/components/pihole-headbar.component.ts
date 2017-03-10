@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'pihole-headbar',
-    templateUrl: "./pihole-headbar.component.pug"
+    templateUrl: "./pihole-headbar.component.html"
 })
 export class PiholeHeadbarComponent {
 }

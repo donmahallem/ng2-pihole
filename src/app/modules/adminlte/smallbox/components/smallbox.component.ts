@@ -10,7 +10,7 @@ import {
 
 @Component({
     selector: 'div.small-box[smallbox]',
-    templateUrl: "./smallbox.component.pug",
+    templateUrl: "./smallbox.component.html",
     styleUrls: ['./smallbox.component.css'],
     animations: [
         trigger('visibilty', [

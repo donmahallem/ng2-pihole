@@ -15,7 +15,7 @@ import {
 import { AlertComponent } from 'ng2-bootstrap/alert'
 import { Subscription } from 'rxjs/Subscription';
 @Component({
-    templateUrl: "./lists.component.pug"
+    templateUrl: "./lists.component.html"
 })
 export class ListsComponent {
     @Input()

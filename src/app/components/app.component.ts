@@ -4,7 +4,7 @@ import { PiholeSidebarComponent } from "./pihole-sidebar.component";
 
 @Component({
     selector: 'app-root',
-    templateUrl: "./app.component.pug",
+    templateUrl: "./app.component.html",
     styleUrls: ['./app.component.css'],
     host: { class: "skin-blue sidebar-mini" },
     moduleId: module.id

@@ -15,7 +15,7 @@ import {
 import { AlertComponent } from 'ng2-bootstrap/alert'
 import { Subscription } from 'rxjs/Subscription';
 @Component({
-    templateUrl: "./select-list.component.pug"
+    templateUrl: "./select-list.component.html"
 })
 export class SelectListComponent {
     constructor(private piholeApi: PiholeApiService,

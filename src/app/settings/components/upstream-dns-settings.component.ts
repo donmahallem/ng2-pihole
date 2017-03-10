@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 @Component({
     selector: "upstream-dns-settings",
-    templateUrl: "./upstream-dns-settings.component.pug",
+    templateUrl: "./upstream-dns-settings.component.html",
 })
 export class UpstreamDnsSettingsComponent {
     private upstreamDnsForm: FormGroup;

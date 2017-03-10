@@ -3,7 +3,7 @@ import { AbstractChartBoxComponent } from "./abstract-chart-box.component";
 
 @Component({
     selector: 'doughnut-chart-box',
-    templateUrl: "./doughnut-chart-box.component.pug"
+    templateUrl: "./doughnut-chart-box.component.html"
 })
 export class DoughnutChartBoxComponent extends AbstractChartBoxComponent {
     protected chartData: number[];

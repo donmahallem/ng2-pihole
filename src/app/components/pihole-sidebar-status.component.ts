@@ -3,7 +3,7 @@ import { PiholeApiService } from "./../services/pihole-api.service";
 import { Status } from "./../services/models";
 @Component({
     selector: 'pihole-sidebar-status',
-    templateUrl: "./pihole-sidebar-status.component.pug"
+    templateUrl: "./pihole-sidebar-status.component.html"
 })
 export class PiholeSidebarStatusComponent {
 

@@ -5,7 +5,7 @@ import { MenuItemTree } from "./sidebar-menu.models";
 
 @Component({
     selector: "li[sidebar-menu-item-tree]",
-    templateUrl: "./sidebar-menu-item-tree.component.pug",
+    templateUrl: "./sidebar-menu-item-tree.component.html",
     host: { "class": "treeview" }
 })
 export class AdminLteSidebarMenuItemTreeComponent extends AdminLteSidebarMenuItemComponent<MenuItemTree>{

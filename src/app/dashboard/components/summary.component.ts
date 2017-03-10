@@ -4,7 +4,7 @@ import { Summary } from './../../services/models';
 
 @Component({
     selector: '.row[summary]',
-    templateUrl: "./summary.component.pug",
+    templateUrl: "./summary.component.html",
     styleUrls: ['./summary.component.css']
 })
 export class SummaryComponent {

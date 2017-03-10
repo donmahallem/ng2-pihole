@@ -12,7 +12,7 @@ import { AdminLteSidebarMenuItemHeaderComponent } from "./sidebar-menu-item-head
 import { AdminLteSidebarMenuTreeSubparentComponent } from "./sidebar-menu-tree-subparent.component";
 @Component({
     selector: "ul.sidebar-menu",
-    templateUrl: "./sidebar-menu-tree-parent.component.pug",
+    templateUrl: "./sidebar-menu-tree-parent.component.html",
     providers: [],
     moduleId: module.id
 })

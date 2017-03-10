@@ -5,7 +5,7 @@ import { PiholeApiService } from "./../../services/pihole-api.service";
 
 @Component({
     selector: 'forward-destinations-chart-box',
-    templateUrl: "./doughnut-chart-box.component.pug"
+    templateUrl: "./doughnut-chart-box.component.html"
 })
 export class ForwardDestinationsChartComponent extends DoughnutChartBoxComponent {
 

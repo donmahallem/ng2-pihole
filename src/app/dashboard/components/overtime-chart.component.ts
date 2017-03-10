@@ -9,7 +9,7 @@ const padNumber = function (num) {
 };
 @Component({
     selector: 'overtime-chart-box',
-    templateUrl: "./line-chart-box.component.pug"
+    templateUrl: "./line-chart-box.component.html"
 })
 export class OvertimeChartComponent extends LineChartBoxComponent {
     constructor(private piholeApi: PiholeApiService) {

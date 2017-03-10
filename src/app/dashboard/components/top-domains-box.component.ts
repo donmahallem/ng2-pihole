@@ -16,7 +16,7 @@ class Query {
 
 @Component({
     selector: 'top-domains-box',
-    templateUrl: "./top-domains-box.component.pug"
+    templateUrl: "./top-domains-box.component.html"
 })
 export class TopDomainsBoxComponent {
     private domains: Query[] = [];
