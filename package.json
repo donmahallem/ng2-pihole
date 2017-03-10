@@ -9,7 +9,10 @@
         "test": "ng test --watch false",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "github": "ng build --aot --base-href /ng2-pihole/ --output-path ./docs"
+        "github": "ng build --aot --base-href /ng2-pihole/ --output-path ./docs",
+        "build:pug": "./node_modules/.bin/pug src",
+        "build:pug:live": "./node_modules/.bin/pug --watch src",
+        "postinstall": "npm run build:pug"
     },
     "private": true,
     "dependencies": {
@@ -56,7 +59,7 @@
         "karma-pug-preprocessor": "^1.0.0-beta.1",
         "protractor": "~5.1.0",
         "pug": "2.0.0-beta11",
-        "pug-loader": "^2.3.0",
+        "pug-cli": "1.0.0-alpha6",
         "ts-node": "2.1.0",
         "tslint": "^4.3.0",
         "typescript": "~2.2.1"

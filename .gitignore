@@ -38,3 +38,7 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
+
+
+#ignore html files in app folder as those will be generated from the pug files
+/src/**/*.html
