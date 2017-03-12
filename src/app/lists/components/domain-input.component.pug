@@ -6,3 +6,4 @@
             i.fa.fa-plus
         button.btn.btn-default(type="button",(click)="refresh()", [disabled]="loading")
             i.fa.fa-refresh
+span.help-block(*ngIf="domainForm.hasError('pattern','domain')") The given input is not a valid domain or wildcard. (example.com or .example.com)

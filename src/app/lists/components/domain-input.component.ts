@@ -43,6 +43,7 @@ export class DomainInputComponent {
     }
 
     private refresh() {
+        console.log(this.domainForm.hasError("pattern", ["domain"]), this.domainForm.errors);
         this.listsService.refresh();
     }
 }

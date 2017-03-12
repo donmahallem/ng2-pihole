@@ -11,7 +11,7 @@ a.logo(href='http://pi-hole.net')
 // Header Navbar: style can be found in header.less
 nav.navbar.navbar-static-top(role='navigation')
 	// Sidebar toggle button
-	a.sidebar-toggle(href='#', data-toggle='offcanvas', role='button')
+	a.sidebar-toggle(data-toggle='offcanvas', role='button',(click)="toggleSidebar()")
 		span.sr-only Toggle navigation
 	.navbar-custom-menu
 		ul.nav.navbar-nav
