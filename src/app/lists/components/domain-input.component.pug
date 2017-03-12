@@ -1,0 +1,8 @@
+// Domain Input
+.form-group.input-group([formGroup]="domainForm",[ngClass]="{'has-error':!domainForm.get('domain').valid,'has-success':domainForm.get('domain').valid}")
+    input.form-control(type="text", placeholder="Add a domain (example.com or sub.example.com)",formControlName="domain")
+    span.input-group-btn
+        button.btn.btn-default(type="button",(click)="add()", [disabled]="domainForm.invalid||loading")
+            i.fa.fa-plus
+        button.btn.btn-default(type="button",(click)="refresh()", [disabled]="loading")
+            i.fa.fa-refresh

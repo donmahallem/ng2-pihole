@@ -1,28 +1,28 @@
 webpackJsonp([0,9],{
 
-/***/ 968:
+/***/ 969:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core_src_linker_ng_module_factory__ = __webpack_require__(127);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_lists_lists_module__ = __webpack_require__(979);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_lists_lists_module__ = __webpack_require__(987);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_src_common_module__ = __webpack_require__(260);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router_src_router_module__ = __webpack_require__(177);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_lists_lists_routing_module__ = __webpack_require__(978);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_alert_alert_module__ = __webpack_require__(499);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_bootstrap_pagination_pagination_module__ = __webpack_require__(500);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_lists_lists_routing_module__ = __webpack_require__(986);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_alert_alert_module__ = __webpack_require__(501);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_bootstrap_pagination_pagination_module__ = __webpack_require__(502);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_forms_src_directives__ = __webpack_require__(261);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_forms_src_form_providers__ = __webpack_require__(262);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_common_src_localization__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_forms_src_form_builder__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_forms_src_directives_radio_control_value_accessor__ = __webpack_require__(76);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_select_list_component_ngfactory__ = __webpack_require__(975);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_lists_component_ngfactory__ = __webpack_require__(974);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__gendir_node_modules_ng2_bootstrap_alert_alert_component_ngfactory__ = __webpack_require__(264);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_select_list_component_ngfactory__ = __webpack_require__(983);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_lists_component_ngfactory__ = __webpack_require__(982);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__gendir_node_modules_ng2_bootstrap_alert_alert_component_ngfactory__ = __webpack_require__(263);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__angular_core_src_i18n_tokens__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__app_lists_components_select_list_component__ = __webpack_require__(972);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__app_lists_components_lists_component__ = __webpack_require__(971);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__app_lists_components_select_list_component__ = __webpack_require__(977);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__app_lists_components_lists_component__ = __webpack_require__(976);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__angular_router_src_router_config_loader__ = __webpack_require__(77);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListsModuleNgFactory", function() { return ListsModuleNgFactory; });
 /**
@@ -189,132 +189,216 @@ var ListsModuleNgFactory = new __WEBPACK_IMPORTED_MODULE_0__angular_core_src_lin
 
 /***/ }),
 
-/***/ 971:
+/***/ 972:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_pihole_api_service__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(263);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListsComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_BehaviorSubject__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_BehaviorSubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_BehaviorSubject__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_pihole_api_service__ = __webpack_require__(17);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListsService; });
 
 
 
-var ListsComponent = (function () {
-    function ListsComponent(piholeApi, activatedRoute, zone) {
+var ListsService = (function () {
+    function ListsService(piholeApi) {
         this.piholeApi = piholeApi;
-        this.activatedRoute = activatedRoute;
-        this.zone = zone;
-        this.domainList = [];
-        this._refreshing = false;
-        this.statusType = "success";
-        this.statusMessage = "Adding to stuff";
-        this.alertVisible = false;
-        this.domainRegex = /^(?!:\/\/)(?!.{256,})(([a-z0-9][a-z0-9_-]*?\.)+?[a-z]{2,6}?)$/i;
-        this.selectedList = activatedRoute.snapshot.data["type"];
+        this.loadingSource = new __WEBPACK_IMPORTED_MODULE_0_rxjs_BehaviorSubject__["BehaviorSubject"](false);
+        this.domainListSource = new __WEBPACK_IMPORTED_MODULE_0_rxjs_BehaviorSubject__["BehaviorSubject"]([]);
+        this.notificationSubject = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__["Subject"]();
+        /**
+         * Ovservable if something is loading to display loading indicators
+         */
+        this.loading = this.loadingSource.asObservable();
+        this.domainList = this.domainListSource.asObservable();
+        this.notification = this.notificationSubject.asObservable();
+        this.refresh();
     }
-    Object.defineProperty(ListsComponent.prototype, "refreshing", {
-        get: function () {
-            return this._refreshing;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ListsComponent.prototype, "selectedList", {
-        get: function () {
-            return this._selectedList;
-        },
-        set: function (selectedList) {
-            this._selectedList = selectedList;
-            this.refresh();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ListsComponent.prototype, "error", {
-        get: function () {
-            return this._error;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ListsComponent.prototype, "hasError", {
-        get: function () {
-            return this._error != null;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ListsComponent.prototype.refresh = function () {
+    ListsService.prototype.add = function (domain) {
         var _this = this;
-        if (!this.refreshing) {
-            this._refreshing = true;
-            this._error = null;
+        if (!this.loadingSource.getValue()) {
+            console.log("add");
+            this.loadingSource.next(true);
             this.piholeApi
-                .getList(this.selectedList)
+                .addDomainToList("white", domain)
                 .subscribe(function (data) {
-                _this.zone.run(function () {
-                    _this.domainList = data;
-                });
+                _this.notificationSubject.next("Domain added to list");
             }, function (error) {
-                _this._error = error;
+                _this.notificationSubject.next(error);
+                _this.loadingSource.next(false);
             }, function () {
-                _this._refreshing = false;
+                _this.loadingSource.next(false);
             });
         }
     };
-    ListsComponent.prototype.showStatus = function (type, message) {
-        this.statusType = type;
-        this.statusMessage = message;
-    };
-    ListsComponent.prototype.isValidDomain = function (domain) {
-        return domain.match(this.domainRegex);
-    };
-    ListsComponent.prototype.showInfo = function (message) {
-        this.showAlert("info", message);
-    };
-    ListsComponent.prototype.showError = function (message) {
-        this.showAlert("danger", message);
-    };
-    ListsComponent.prototype.showSuccess = function (message) {
-        this.showAlert("success", message);
-    };
-    ListsComponent.prototype.showAlert = function (type, message) {
-        this.alertVisible = true;
-        this.statusType = type;
-        this.statusMessage = message;
-    };
-    ListsComponent.prototype.addDomain = function () {
+    ListsService.prototype.refresh = function () {
         var _this = this;
-        this.showInfo("Adding domain");
-        if (this.isValidDomain(this.domain)) {
+        if (!this.loadingSource.getValue()) {
+            this.loadingSource.next(true);
             this.piholeApi
-                .addDomainToList("white", this.domain)
-                .subscribe(function (success) { return _this.showSuccess("Domain added successfully"); }, function (error) { return _this.showError("Couldn't add domain"); });
+                .getList("white")
+                .subscribe(function (data) {
+                _this.domainListSource.next(data);
+            }, function (error) {
+                _this.notificationSubject.next(error);
+                _this.loadingSource.next(false);
+            }, function () {
+                _this.loadingSource.next(false);
+            });
         }
-        else {
-            this.showError("No valid domain");
-        }
     };
-    ListsComponent.prototype.remove = function (item) {
-        console.log("Remove", item);
-    };
-    ListsComponent.prototype.alertClosed = function (event) {
-        this.alertVisible = false;
-    };
-    ListsComponent.prototype.removeDomain = function () {
+    ListsService.prototype.remove = function (listEntry) {
         var _this = this;
-        this.showInfo("Removing domain");
-        if (this.isValidDomain(this.domain)) {
+        if (!this.loadingSource.getValue()) {
+            this.loadingSource.next(true);
             this.piholeApi
-                .removeDomainFromList("white", this.domain)
-                .subscribe(function (success) { return _this.showSuccess("Domain removed successfully"); }, function (error) { return _this.showError("Couldn't remove domain"); });
-        }
-        else {
-            this.showError("No valid domain");
+                .removeDomainFromList("white", listEntry.domain)
+                .subscribe(function (data) {
+                _this.notificationSubject.next("Domain removed from list");
+            }, function (error) {
+                _this.notificationSubject.next(error);
+                _this.loadingSource.next(false);
+            }, function () {
+                _this.loadingSource.next(false);
+            });
         }
     };
-    ListsComponent.ctorParameters = function () { return [{ type: __WEBPACK_IMPORTED_MODULE_1__services_pihole_api_service__["a" /* PiholeApiService */] }, { type: __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */] }, { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgZone"] }]; };
+    ListsService.ctorParameters = function () { return [{ type: __WEBPACK_IMPORTED_MODULE_2__services_pihole_api_service__["a" /* PiholeApiService */] }]; };
+    return ListsService;
+}());
+
+//# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/lists.service.js.map
+
+/***/ }),
+
+/***/ 973:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_forms__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lists_service__ = __webpack_require__(972);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DomainInputComponent; });
+
+
+var DomainInputComponent = (function () {
+    function DomainInputComponent(listsService) {
+        var _this = this;
+        this.listsService = listsService;
+        this.domainRegex = /^(?!:\/\/)(?!.{256,})(([a-z0-9][a-z0-9_-]*?\.)+?[a-z]{2,6}?)$/i;
+        /**
+         * loading state for the refresh button
+         */
+        this.loading = false;
+        this.domainForm = new __WEBPACK_IMPORTED_MODULE_0__angular_forms__["b" /* FormGroup */]({
+            domain: new __WEBPACK_IMPORTED_MODULE_0__angular_forms__["c" /* FormControl */]("", __WEBPACK_IMPORTED_MODULE_0__angular_forms__["d" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_0__angular_forms__["d" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_0__angular_forms__["d" /* Validators */].pattern(this.domainRegex)]))
+        });
+        this.loadingSubscription = listsService.loading.subscribe(function (loading) {
+            _this.loading = loading;
+            if (loading) {
+                _this.domainForm.disable();
+            }
+            else {
+                _this.domainForm.enable();
+            }
+        });
+    }
+    DomainInputComponent.prototype.add = function () {
+        if (this.domainForm.valid) {
+            this.listsService.add(this.domainForm.value["domain"]);
+        }
+    };
+    DomainInputComponent.prototype.refresh = function () {
+        this.listsService.refresh();
+    };
+    DomainInputComponent.ctorParameters = function () { return [{ type: __WEBPACK_IMPORTED_MODULE_1__lists_service__["a" /* ListsService */] }]; };
+    return DomainInputComponent;
+}());
+
+//# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/domain-input.component.js.map
+
+/***/ }),
+
+/***/ 974:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lists_service__ = __webpack_require__(972);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DomainListItemComponent; });
+
+var DomainListItemComponent = (function () {
+    function DomainListItemComponent(listsService) {
+        this.listsService = listsService;
+    }
+    DomainListItemComponent.prototype.remove = function () {
+        this.listsService.remove(this.listEnty);
+    };
+    DomainListItemComponent.ctorParameters = function () { return [{ type: __WEBPACK_IMPORTED_MODULE_0__lists_service__["a" /* ListsService */] }]; };
+    return DomainListItemComponent;
+}());
+
+//# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/domain-list-item.component.js.map
+
+/***/ }),
+
+/***/ 975:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lists_service__ = __webpack_require__(972);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DomainListComponent; });
+
+var DomainListComponent = (function () {
+    function DomainListComponent(listsService) {
+        var _this = this;
+        this.listsService = listsService;
+        this.domainListSubscription = this.listsService.domainList.subscribe(function (data) {
+            _this.domainList = data;
+        });
+    }
+    DomainListComponent.prototype.ngOnDestroy = function () {
+        this.domainListSubscription.unsubscribe();
+    };
+    DomainListComponent.ctorParameters = function () { return [{ type: __WEBPACK_IMPORTED_MODULE_0__lists_service__["a" /* ListsService */] }]; };
+    return DomainListComponent;
+}());
+
+//# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/domain-list.component.js.map
+
+/***/ }),
+
+/***/ 976:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lists_service__ = __webpack_require__(972);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListsComponent; });
+
+var ListsComponent = (function () {
+    function ListsComponent(listService) {
+        var _this = this;
+        this.listService = listService;
+        this.error = null;
+        this.loadingSubscription = listService.loading.subscribe(function (loading) {
+        }, function (error) {
+        }, function () {
+        });
+        this.notificationSubscription = listService.notification.subscribe(function (notification) {
+            if (notification instanceof Error) {
+                console.log("Error", notification);
+                _this.error = notification;
+            }
+            else {
+                console.log("no error", notification, typeof notification);
+            }
+        });
+    }
+    ListsComponent.prototype.ngOnDestroy = function () {
+        this.notificationSubscription.unsubscribe();
+        this.loadingSubscription.unsubscribe();
+    };
+    ListsComponent.ctorParameters = function () { return [{ type: __WEBPACK_IMPORTED_MODULE_0__lists_service__["a" /* ListsService */] }]; };
     return ListsComponent;
 }());
 
@@ -322,12 +406,12 @@ var ListsComponent = (function () {
 
 /***/ }),
 
-/***/ 972:
+/***/ 977:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__services_pihole_api_service__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(263);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(264);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SelectListComponent; });
 
 
@@ -344,43 +428,38 @@ var SelectListComponent = (function () {
 
 /***/ }),
 
-/***/ 974:
+/***/ 979:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_lists_components_lists_component__ = __webpack_require__(971);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core_src_change_detection_change_detection_util__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core_src_metadata_view__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_core_src_linker_query_list__ = __webpack_require__(99);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_view_type__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_core_src_change_detection_constants__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_core_src_linker_component_factory__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_services_pihole_api_service__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_router_src_router_state__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_core_src_zone_ng_zone__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__gendir_node_modules_angular_router_src_directives_router_link_ngfactory__ = __webpack_require__(506);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_core_src_linker_view_container__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_router_src_router__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__angular_common_src_location_location_strategy__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__angular_router_src_directives_router_link__ = __webpack_require__(101);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_ng2_bootstrap_alert_alert_component__ = __webpack_require__(181);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__gendir_node_modules_ng2_bootstrap_alert_alert_component_ngfactory__ = __webpack_require__(264);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_ng2_bootstrap_alert_alert_config__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__gendir_node_modules_angular_common_src_directives_ng_for_ngfactory__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_core_src_linker_template_ref__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__angular_core_src_change_detection_differs_iterable_differs__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__angular_common_src_directives_ng_for__ = __webpack_require__(63);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__gendir_node_modules_angular_common_src_directives_ng_class_ngfactory__ = __webpack_require__(79);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__gendir_node_modules_angular_common_src_directives_ng_if_ngfactory__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__angular_core_src_change_detection_differs_keyvalue_differs__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__angular_core_src_linker_element_ref__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__angular_common_src_directives_ng_class__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__angular_common_src_directives_ng_if__ = __webpack_require__(29);
-/* unused harmony export Wrapper_ListsComponent */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListsComponentNgFactory; });
-/* unused harmony export View_ListsComponent0 */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_lists_components_domain_input_component__ = __webpack_require__(973);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core_src_linker_view__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core_src_metadata_view__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core_src_linker_view_type__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_core_src_change_detection_constants__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_component_factory__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_lists_components_lists_service__ = __webpack_require__(972);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__gendir_node_modules_angular_common_src_directives_ng_class_ngfactory__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__gendir_node_modules_angular_forms_src_directives_reactive_directives_form_group_directive_ngfactory__ = __webpack_require__(266);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__gendir_node_modules_angular_forms_src_directives_ng_control_status_ngfactory__ = __webpack_require__(265);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__gendir_node_modules_angular_forms_src_directives_default_value_accessor_ngfactory__ = __webpack_require__(498);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__gendir_node_modules_angular_forms_src_directives_reactive_directives_form_control_name_ngfactory__ = __webpack_require__(499);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_core_src_change_detection_change_detection_util__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_core_src_change_detection_differs_iterable_differs__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__angular_core_src_change_detection_differs_keyvalue_differs__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__angular_core_src_linker_element_ref__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__angular_forms_src_directives_default_value_accessor__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__angular_forms_src_directives_control_value_accessor__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__angular_forms_src_directives_reactive_directives_form_control_name__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__angular_forms_src_directives_ng_control__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_forms_src_directives_ng_control_status__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__angular_common_src_directives_ng_class__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__angular_forms_src_directives_reactive_directives_form_group_directive__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__angular_forms_src_directives_control_container__ = __webpack_require__(31);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Wrapper_DomainInputComponent; });
+/* unused harmony export DomainInputComponentNgFactory */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return View_DomainInputComponent0; });
 /**
  * @fileoverview This file is generated by the Angular 2 template compiler.
  * Do not edit.
@@ -422,27 +501,691 @@ var __extends = (this && this.__extends) || (function () {
 
 
 
+var Wrapper_DomainInputComponent = (function () {
+    function Wrapper_DomainInputComponent(p0) {
+        this._changed = false;
+        this.context = new __WEBPACK_IMPORTED_MODULE_0__app_lists_components_domain_input_component__["a" /* DomainInputComponent */](p0);
+    }
+    Wrapper_DomainInputComponent.prototype.ngOnDetach = function (view, componentView, el) {
+    };
+    Wrapper_DomainInputComponent.prototype.ngOnDestroy = function () {
+    };
+    Wrapper_DomainInputComponent.prototype.ngDoCheck = function (view, el, throwOnChange) {
+        var changed = this._changed;
+        this._changed = false;
+        return changed;
+    };
+    Wrapper_DomainInputComponent.prototype.checkHost = function (view, componentView, el, throwOnChange) {
+    };
+    Wrapper_DomainInputComponent.prototype.handleEvent = function (eventName, $event) {
+        var result = true;
+        return result;
+    };
+    Wrapper_DomainInputComponent.prototype.subscribe = function (view, _eventHandler) {
+        this._eventHandler = _eventHandler;
+    };
+    return Wrapper_DomainInputComponent;
+}());
+
+var renderType_DomainInputComponent_Host = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderComponentType"]('', 0, __WEBPACK_IMPORTED_MODULE_3__angular_core_src_metadata_view__["b" /* ViewEncapsulation */].None, [], {});
+var View_DomainInputComponent_Host0 = (function (_super) {
+    __extends(View_DomainInputComponent_Host0, _super);
+    function View_DomainInputComponent_Host0(viewUtils, parentView, parentIndex, parentElement) {
+        return _super.call(this, View_DomainInputComponent_Host0, renderType_DomainInputComponent_Host, __WEBPACK_IMPORTED_MODULE_4__angular_core_src_linker_view_type__["a" /* ViewType */].HOST, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_5__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways) || this;
+    }
+    View_DomainInputComponent_Host0.prototype.createInternal = function (rootSelector) {
+        this._el_0 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["selectOrCreateRenderHostElement"](this.renderer, 'domain-input', __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], rootSelector, null);
+        this.compView_0 = new View_DomainInputComponent0(this.viewUtils, this, 0, this._el_0);
+        this._DomainInputComponent_0_3 = new Wrapper_DomainInputComponent(this.injectorGet(__WEBPACK_IMPORTED_MODULE_7__app_lists_components_lists_service__["a" /* ListsService */], this.parentIndex));
+        this.compView_0.create(this._DomainInputComponent_0_3.context);
+        this.init(this._el_0, (this.renderer.directRenderer ? null : [this._el_0]), null);
+        return new __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_component_factory__["a" /* ComponentRef_ */](0, this, this._el_0, this._DomainInputComponent_0_3.context);
+    };
+    View_DomainInputComponent_Host0.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
+        if (((token === __WEBPACK_IMPORTED_MODULE_0__app_lists_components_domain_input_component__["a" /* DomainInputComponent */]) && (0 === requestNodeIndex))) {
+            return this._DomainInputComponent_0_3.context;
+        }
+        return notFoundResult;
+    };
+    View_DomainInputComponent_Host0.prototype.detectChangesInternal = function (throwOnChange) {
+        this._DomainInputComponent_0_3.ngDoCheck(this, this._el_0, throwOnChange);
+        this.compView_0.internalDetectChanges(throwOnChange);
+    };
+    View_DomainInputComponent_Host0.prototype.destroyInternal = function () {
+        this.compView_0.destroy();
+    };
+    View_DomainInputComponent_Host0.prototype.visitRootNodesInternal = function (cb, ctx) {
+        cb(this._el_0, ctx);
+    };
+    return View_DomainInputComponent_Host0;
+}(__WEBPACK_IMPORTED_MODULE_1__angular_core_src_linker_view__["a" /* AppView */]));
+var DomainInputComponentNgFactory = new __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_component_factory__["b" /* ComponentFactory */]('domain-input', View_DomainInputComponent_Host0, __WEBPACK_IMPORTED_MODULE_0__app_lists_components_domain_input_component__["a" /* DomainInputComponent */]);
+var styles_DomainInputComponent = [];
+var renderType_DomainInputComponent = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderComponentType"]('', 0, __WEBPACK_IMPORTED_MODULE_3__angular_core_src_metadata_view__["b" /* ViewEncapsulation */].None, styles_DomainInputComponent, {});
+var View_DomainInputComponent0 = (function (_super) {
+    __extends(View_DomainInputComponent0, _super);
+    function View_DomainInputComponent0(viewUtils, parentView, parentIndex, parentElement) {
+        var _this = _super.call(this, View_DomainInputComponent0, renderType_DomainInputComponent, __WEBPACK_IMPORTED_MODULE_4__angular_core_src_linker_view_type__["a" /* ViewType */].COMPONENT, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_5__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways) || this;
+        _this._map_16 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["pureProxy2"](function (p0, p1) {
+            return {
+                'has-error': p0,
+                'has-success': p1
+            };
+        });
+        _this._expr_17 = __WEBPACK_IMPORTED_MODULE_13__angular_core_src_change_detection_change_detection_util__["b" /* UNINITIALIZED */];
+        _this._expr_18 = __WEBPACK_IMPORTED_MODULE_13__angular_core_src_change_detection_change_detection_util__["b" /* UNINITIALIZED */];
+        return _this;
+    }
+    View_DomainInputComponent0.prototype.createInternal = function (rootSelector) {
+        var parentRenderNode = this.renderer.createViewRoot(this.parentElement);
+        this._el_0 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, parentRenderNode, 'div', new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'form-group input-group'), null);
+        this._NgClass_0_3 = new __WEBPACK_IMPORTED_MODULE_8__gendir_node_modules_angular_common_src_directives_ng_class_ngfactory__["a" /* Wrapper_NgClass */](this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_14__angular_core_src_change_detection_differs_iterable_differs__["a" /* IterableDiffers */], this.parentIndex), this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_15__angular_core_src_change_detection_differs_keyvalue_differs__["a" /* KeyValueDiffers */], this.parentIndex), new __WEBPACK_IMPORTED_MODULE_16__angular_core_src_linker_element_ref__["a" /* ElementRef */](this._el_0), this.renderer);
+        this._FormGroupDirective_0_4 = new __WEBPACK_IMPORTED_MODULE_9__gendir_node_modules_angular_forms_src_directives_reactive_directives_form_group_directive_ngfactory__["a" /* Wrapper_FormGroupDirective */](null, null);
+        this._ControlContainer_0_5 = this._FormGroupDirective_0_4.context;
+        this._NgControlStatusGroup_0_6 = new __WEBPACK_IMPORTED_MODULE_10__gendir_node_modules_angular_forms_src_directives_ng_control_status_ngfactory__["a" /* Wrapper_NgControlStatusGroup */](this._ControlContainer_0_5);
+        this._el_1 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_0, 'input', new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray8"](8, 'class', 'form-control', 'formControlName', 'domain', 'placeholder', 'Add a domain (example.com or sub.example.com)', 'type', 'text'), null);
+        this._DefaultValueAccessor_1_3 = new __WEBPACK_IMPORTED_MODULE_11__gendir_node_modules_angular_forms_src_directives_default_value_accessor_ngfactory__["a" /* Wrapper_DefaultValueAccessor */](this.renderer, new __WEBPACK_IMPORTED_MODULE_16__angular_core_src_linker_element_ref__["a" /* ElementRef */](this._el_1));
+        this._NG_VALUE_ACCESSOR_1_4 = [this._DefaultValueAccessor_1_3.context];
+        this._FormControlName_1_5 = new __WEBPACK_IMPORTED_MODULE_12__gendir_node_modules_angular_forms_src_directives_reactive_directives_form_control_name_ngfactory__["a" /* Wrapper_FormControlName */](this._ControlContainer_0_5, null, null, this._NG_VALUE_ACCESSOR_1_4);
+        this._NgControl_1_6 = this._FormControlName_1_5.context;
+        this._NgControlStatus_1_7 = new __WEBPACK_IMPORTED_MODULE_10__gendir_node_modules_angular_forms_src_directives_ng_control_status_ngfactory__["b" /* Wrapper_NgControlStatus */](this._NgControl_1_6);
+        this._el_2 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_0, 'span', new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'input-group-btn'), null);
+        this._el_3 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_2, 'button', new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray4"](4, 'class', 'btn btn-default', 'type', 'button'), null);
+        this._el_4 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_3, 'i', new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'fa fa-plus'), null);
+        this._el_5 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_2, 'button', new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray4"](4, 'class', 'btn btn-default', 'type', 'button'), null);
+        this._el_6 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_5, 'i', new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'fa fa-refresh'), null);
+        var disposable_0 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["subscribeToRenderElement"](this, this._el_0, new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray4"](4, 'submit', null, 'reset', null), this.eventHandler(this.handleEvent_0));
+        var disposable_1 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["subscribeToRenderElement"](this, this._el_1, new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray4"](4, 'input', null, 'blur', null), this.eventHandler(this.handleEvent_1));
+        var disposable_2 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["subscribeToRenderElement"](this, this._el_3, new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray2"](2, 'click', null), this.eventHandler(this.handleEvent_3));
+        var disposable_3 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["subscribeToRenderElement"](this, this._el_5, new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray2"](2, 'click', null), this.eventHandler(this.handleEvent_5));
+        this.init(null, (this.renderer.directRenderer ? null : [
+            this._el_0,
+            this._el_1,
+            this._el_2,
+            this._el_3,
+            this._el_4,
+            this._el_5,
+            this._el_6
+        ]), [
+            disposable_0,
+            disposable_1,
+            disposable_2,
+            disposable_3
+        ]);
+        return null;
+    };
+    View_DomainInputComponent0.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
+        if (((token === __WEBPACK_IMPORTED_MODULE_17__angular_forms_src_directives_default_value_accessor__["a" /* DefaultValueAccessor */]) && (1 === requestNodeIndex))) {
+            return this._DefaultValueAccessor_1_3.context;
+        }
+        if (((token === __WEBPACK_IMPORTED_MODULE_18__angular_forms_src_directives_control_value_accessor__["a" /* NG_VALUE_ACCESSOR */]) && (1 === requestNodeIndex))) {
+            return this._NG_VALUE_ACCESSOR_1_4;
+        }
+        if (((token === __WEBPACK_IMPORTED_MODULE_19__angular_forms_src_directives_reactive_directives_form_control_name__["a" /* FormControlName */]) && (1 === requestNodeIndex))) {
+            return this._FormControlName_1_5.context;
+        }
+        if (((token === __WEBPACK_IMPORTED_MODULE_20__angular_forms_src_directives_ng_control__["a" /* NgControl */]) && (1 === requestNodeIndex))) {
+            return this._NgControl_1_6;
+        }
+        if (((token === __WEBPACK_IMPORTED_MODULE_21__angular_forms_src_directives_ng_control_status__["a" /* NgControlStatus */]) && (1 === requestNodeIndex))) {
+            return this._NgControlStatus_1_7.context;
+        }
+        if (((token === __WEBPACK_IMPORTED_MODULE_22__angular_common_src_directives_ng_class__["a" /* NgClass */]) && ((0 <= requestNodeIndex) && (requestNodeIndex <= 6)))) {
+            return this._NgClass_0_3.context;
+        }
+        if (((token === __WEBPACK_IMPORTED_MODULE_23__angular_forms_src_directives_reactive_directives_form_group_directive__["a" /* FormGroupDirective */]) && ((0 <= requestNodeIndex) && (requestNodeIndex <= 6)))) {
+            return this._FormGroupDirective_0_4.context;
+        }
+        if (((token === __WEBPACK_IMPORTED_MODULE_24__angular_forms_src_directives_control_container__["a" /* ControlContainer */]) && ((0 <= requestNodeIndex) && (requestNodeIndex <= 6)))) {
+            return this._ControlContainer_0_5;
+        }
+        if (((token === __WEBPACK_IMPORTED_MODULE_21__angular_forms_src_directives_ng_control_status__["b" /* NgControlStatusGroup */]) && ((0 <= requestNodeIndex) && (requestNodeIndex <= 6)))) {
+            return this._NgControlStatusGroup_0_6.context;
+        }
+        return notFoundResult;
+    };
+    View_DomainInputComponent0.prototype.detectChangesInternal = function (throwOnChange) {
+        var currVal_0_0_0 = 'form-group input-group';
+        this._NgClass_0_3.check_klass(currVal_0_0_0, throwOnChange, false);
+        var currVal_0_0_1 = this._map_16(!this.context.domainForm.get('domain').valid, this.context.domainForm.get('domain').valid);
+        this._NgClass_0_3.check_ngClass(currVal_0_0_1, throwOnChange, false);
+        this._NgClass_0_3.ngDoCheck(this, this._el_0, throwOnChange);
+        var currVal_0_1_0 = this.context.domainForm;
+        this._FormGroupDirective_0_4.check_form(currVal_0_1_0, throwOnChange, false);
+        this._FormGroupDirective_0_4.ngDoCheck(this, this._el_0, throwOnChange);
+        this._NgControlStatusGroup_0_6.ngDoCheck(this, this._el_0, throwOnChange);
+        this._DefaultValueAccessor_1_3.ngDoCheck(this, this._el_1, throwOnChange);
+        var currVal_1_1_0 = 'domain';
+        this._FormControlName_1_5.check_name(currVal_1_1_0, throwOnChange, false);
+        this._FormControlName_1_5.ngDoCheck(this, this._el_1, throwOnChange);
+        this._NgControlStatus_1_7.ngDoCheck(this, this._el_1, throwOnChange);
+        this._NgControlStatusGroup_0_6.checkHost(this, this, this._el_0, throwOnChange);
+        this._NgControlStatus_1_7.checkHost(this, this, this._el_1, throwOnChange);
+        var currVal_17 = (this.context.domainForm.invalid || this.context.loading);
+        if (__WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["checkBinding"](throwOnChange, this._expr_17, currVal_17)) {
+            this.renderer.setElementProperty(this._el_3, 'disabled', currVal_17);
+            this._expr_17 = currVal_17;
+        }
+        var currVal_18 = this.context.loading;
+        if (__WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["checkBinding"](throwOnChange, this._expr_18, currVal_18)) {
+            this.renderer.setElementProperty(this._el_5, 'disabled', currVal_18);
+            this._expr_18 = currVal_18;
+        }
+    };
+    View_DomainInputComponent0.prototype.destroyInternal = function () {
+        this._FormControlName_1_5.ngOnDestroy();
+        this._FormGroupDirective_0_4.ngOnDestroy();
+    };
+    View_DomainInputComponent0.prototype.handleEvent_0 = function (eventName, $event) {
+        this.markPathToRootAsCheckOnce();
+        var result = true;
+        result = (this._FormGroupDirective_0_4.handleEvent(eventName, $event) && result);
+        return result;
+    };
+    View_DomainInputComponent0.prototype.handleEvent_1 = function (eventName, $event) {
+        this.markPathToRootAsCheckOnce();
+        var result = true;
+        result = (this._DefaultValueAccessor_1_3.handleEvent(eventName, $event) && result);
+        return result;
+    };
+    View_DomainInputComponent0.prototype.handleEvent_3 = function (eventName, $event) {
+        this.markPathToRootAsCheckOnce();
+        var result = true;
+        if ((eventName == 'click')) {
+            var pd_sub_0 = (this.context.add() !== false);
+            result = (pd_sub_0 && result);
+        }
+        return result;
+    };
+    View_DomainInputComponent0.prototype.handleEvent_5 = function (eventName, $event) {
+        this.markPathToRootAsCheckOnce();
+        var result = true;
+        if ((eventName == 'click')) {
+            var pd_sub_0 = (this.context.refresh() !== false);
+            result = (pd_sub_0 && result);
+        }
+        return result;
+    };
+    return View_DomainInputComponent0;
+}(__WEBPACK_IMPORTED_MODULE_1__angular_core_src_linker_view__["a" /* AppView */]));
+
+//# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/domain-input.component.ngfactory.js.map
+
+/***/ }),
+
+/***/ 980:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_lists_components_domain_list_item_component__ = __webpack_require__(974);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core_src_change_detection_change_detection_util__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core_src_metadata_view__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_core_src_linker_view_type__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_core_src_change_detection_constants__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_core_src_linker_component_factory__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_lists_components_lists_service__ = __webpack_require__(972);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Wrapper_DomainListItemComponent; });
+/* unused harmony export DomainListItemComponentNgFactory */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return View_DomainListItemComponent0; });
+/**
+ * @fileoverview This file is generated by the Angular 2 template compiler.
+ * Do not edit.
+ * @suppress {suspiciousCode,uselessCode,missingProperties}
+ */
+/* tslint:disable */
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+
+
+
+
+
+
+var Wrapper_DomainListItemComponent = (function () {
+    function Wrapper_DomainListItemComponent(p0) {
+        this._changed = false;
+        this.context = new __WEBPACK_IMPORTED_MODULE_0__app_lists_components_domain_list_item_component__["a" /* DomainListItemComponent */](p0);
+        this._expr_0 = __WEBPACK_IMPORTED_MODULE_1__angular_core_src_change_detection_change_detection_util__["b" /* UNINITIALIZED */];
+    }
+    Wrapper_DomainListItemComponent.prototype.ngOnDetach = function (view, componentView, el) {
+    };
+    Wrapper_DomainListItemComponent.prototype.ngOnDestroy = function () {
+    };
+    Wrapper_DomainListItemComponent.prototype.check_listEnty = function (currValue, throwOnChange, forceUpdate) {
+        if ((forceUpdate || __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["checkBinding"](throwOnChange, this._expr_0, currValue))) {
+            this._changed = true;
+            this.context.listEnty = currValue;
+            this._expr_0 = currValue;
+        }
+    };
+    Wrapper_DomainListItemComponent.prototype.ngDoCheck = function (view, el, throwOnChange) {
+        var changed = this._changed;
+        this._changed = false;
+        return changed;
+    };
+    Wrapper_DomainListItemComponent.prototype.checkHost = function (view, componentView, el, throwOnChange) {
+    };
+    Wrapper_DomainListItemComponent.prototype.handleEvent = function (eventName, $event) {
+        var result = true;
+        return result;
+    };
+    Wrapper_DomainListItemComponent.prototype.subscribe = function (view, _eventHandler) {
+        this._eventHandler = _eventHandler;
+    };
+    return Wrapper_DomainListItemComponent;
+}());
+
+var renderType_DomainListItemComponent_Host = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderComponentType"]('', 0, __WEBPACK_IMPORTED_MODULE_4__angular_core_src_metadata_view__["b" /* ViewEncapsulation */].None, [], {});
+var View_DomainListItemComponent_Host0 = (function (_super) {
+    __extends(View_DomainListItemComponent_Host0, _super);
+    function View_DomainListItemComponent_Host0(viewUtils, parentView, parentIndex, parentElement) {
+        return _super.call(this, View_DomainListItemComponent_Host0, renderType_DomainListItemComponent_Host, __WEBPACK_IMPORTED_MODULE_5__angular_core_src_linker_view_type__["a" /* ViewType */].HOST, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_6__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways) || this;
+    }
+    View_DomainListItemComponent_Host0.prototype.createInternal = function (rootSelector) {
+        this._el_0 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["selectOrCreateRenderHostElement"](this.renderer, 'domain-list-item', __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], rootSelector, null);
+        this.compView_0 = new View_DomainListItemComponent0(this.viewUtils, this, 0, this._el_0);
+        this._DomainListItemComponent_0_3 = new Wrapper_DomainListItemComponent(this.injectorGet(__WEBPACK_IMPORTED_MODULE_8__app_lists_components_lists_service__["a" /* ListsService */], this.parentIndex));
+        this.compView_0.create(this._DomainListItemComponent_0_3.context);
+        this.init(this._el_0, (this.renderer.directRenderer ? null : [this._el_0]), null);
+        return new __WEBPACK_IMPORTED_MODULE_7__angular_core_src_linker_component_factory__["a" /* ComponentRef_ */](0, this, this._el_0, this._DomainListItemComponent_0_3.context);
+    };
+    View_DomainListItemComponent_Host0.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
+        if (((token === __WEBPACK_IMPORTED_MODULE_0__app_lists_components_domain_list_item_component__["a" /* DomainListItemComponent */]) && (0 === requestNodeIndex))) {
+            return this._DomainListItemComponent_0_3.context;
+        }
+        return notFoundResult;
+    };
+    View_DomainListItemComponent_Host0.prototype.detectChangesInternal = function (throwOnChange) {
+        this._DomainListItemComponent_0_3.ngDoCheck(this, this._el_0, throwOnChange);
+        this.compView_0.internalDetectChanges(throwOnChange);
+    };
+    View_DomainListItemComponent_Host0.prototype.destroyInternal = function () {
+        this.compView_0.destroy();
+    };
+    View_DomainListItemComponent_Host0.prototype.visitRootNodesInternal = function (cb, ctx) {
+        cb(this._el_0, ctx);
+    };
+    return View_DomainListItemComponent_Host0;
+}(__WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view__["a" /* AppView */]));
+var DomainListItemComponentNgFactory = new __WEBPACK_IMPORTED_MODULE_7__angular_core_src_linker_component_factory__["b" /* ComponentFactory */]('domain-list-item', View_DomainListItemComponent_Host0, __WEBPACK_IMPORTED_MODULE_0__app_lists_components_domain_list_item_component__["a" /* DomainListItemComponent */]);
+var styles_DomainListItemComponent = [];
+var renderType_DomainListItemComponent = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderComponentType"]('', 0, __WEBPACK_IMPORTED_MODULE_4__angular_core_src_metadata_view__["b" /* ViewEncapsulation */].None, styles_DomainListItemComponent, {});
+var View_DomainListItemComponent0 = (function (_super) {
+    __extends(View_DomainListItemComponent0, _super);
+    function View_DomainListItemComponent0(viewUtils, parentView, parentIndex, parentElement) {
+        var _this = _super.call(this, View_DomainListItemComponent0, renderType_DomainListItemComponent, __WEBPACK_IMPORTED_MODULE_5__angular_core_src_linker_view_type__["a" /* ViewType */].COMPONENT, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_6__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways) || this;
+        _this._expr_4 = __WEBPACK_IMPORTED_MODULE_1__angular_core_src_change_detection_change_detection_util__["b" /* UNINITIALIZED */];
+        return _this;
+    }
+    View_DomainListItemComponent0.prototype.createInternal = function (rootSelector) {
+        var parentRenderNode = this.renderer.createViewRoot(this.parentElement);
+        this._el_0 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, parentRenderNode, 'li', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'list-group-item clearfix'), null);
+        this._text_1 = this.renderer.createText(this._el_0, '', null);
+        this._el_2 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_0, 'button', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray4"](4, 'class', 'btn btn-danger btn-xs pull-right', 'type', 'button'), null);
+        this._el_3 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_2, 'span', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'glyphicon glyphicon-trash'), null);
+        var disposable_0 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["subscribeToRenderElement"](this, this._el_2, new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'click', null), this.eventHandler(this.handleEvent_2));
+        this.init(null, (this.renderer.directRenderer ? null : [
+            this._el_0,
+            this._text_1,
+            this._el_2,
+            this._el_3
+        ]), [disposable_0]);
+        return null;
+    };
+    View_DomainListItemComponent0.prototype.detectChangesInternal = function (throwOnChange) {
+        var currVal_4 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["inlineInterpolate"](1, '', this.context.listEnty.domain, '');
+        if (__WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["checkBinding"](throwOnChange, this._expr_4, currVal_4)) {
+            this.renderer.setText(this._text_1, currVal_4);
+            this._expr_4 = currVal_4;
+        }
+    };
+    View_DomainListItemComponent0.prototype.handleEvent_2 = function (eventName, $event) {
+        this.markPathToRootAsCheckOnce();
+        var result = true;
+        if ((eventName == 'click')) {
+            var pd_sub_0 = (this.context.remove() !== false);
+            result = (pd_sub_0 && result);
+        }
+        return result;
+    };
+    return View_DomainListItemComponent0;
+}(__WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view__["a" /* AppView */]));
+
+//# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/domain-list-item.component.ngfactory.js.map
+
+/***/ }),
+
+/***/ 981:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_lists_components_domain_list_component__ = __webpack_require__(975);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core_src_linker_view__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core_src_metadata_view__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core_src_linker_view_type__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_core_src_change_detection_constants__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_component_factory__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_lists_components_lists_service__ = __webpack_require__(972);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_lists_components_domain_list_item_component__ = __webpack_require__(974);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__domain_list_item_component_ngfactory__ = __webpack_require__(980);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_core_src_linker_view_container__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__gendir_node_modules_angular_common_src_directives_ng_for_ngfactory__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_core_src_linker_template_ref__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_core_src_change_detection_differs_iterable_differs__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_common_src_directives_ng_for__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__gendir_node_modules_angular_common_src_directives_ng_if_ngfactory__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__angular_common_src_directives_ng_if__ = __webpack_require__(29);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Wrapper_DomainListComponent; });
+/* unused harmony export DomainListComponentNgFactory */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return View_DomainListComponent0; });
+/**
+ * @fileoverview This file is generated by the Angular 2 template compiler.
+ * Do not edit.
+ * @suppress {suspiciousCode,uselessCode,missingProperties}
+ */
+/* tslint:disable */
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var Wrapper_DomainListComponent = (function () {
+    function Wrapper_DomainListComponent(p0) {
+        this._changed = false;
+        this.context = new __WEBPACK_IMPORTED_MODULE_0__app_lists_components_domain_list_component__["a" /* DomainListComponent */](p0);
+    }
+    Wrapper_DomainListComponent.prototype.ngOnDetach = function (view, componentView, el) {
+    };
+    Wrapper_DomainListComponent.prototype.ngOnDestroy = function () {
+        this.context.ngOnDestroy();
+    };
+    Wrapper_DomainListComponent.prototype.ngDoCheck = function (view, el, throwOnChange) {
+        var changed = this._changed;
+        this._changed = false;
+        return changed;
+    };
+    Wrapper_DomainListComponent.prototype.checkHost = function (view, componentView, el, throwOnChange) {
+    };
+    Wrapper_DomainListComponent.prototype.handleEvent = function (eventName, $event) {
+        var result = true;
+        return result;
+    };
+    Wrapper_DomainListComponent.prototype.subscribe = function (view, _eventHandler) {
+        this._eventHandler = _eventHandler;
+    };
+    return Wrapper_DomainListComponent;
+}());
+
+var renderType_DomainListComponent_Host = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderComponentType"]('', 0, __WEBPACK_IMPORTED_MODULE_3__angular_core_src_metadata_view__["b" /* ViewEncapsulation */].None, [], {});
+var View_DomainListComponent_Host0 = (function (_super) {
+    __extends(View_DomainListComponent_Host0, _super);
+    function View_DomainListComponent_Host0(viewUtils, parentView, parentIndex, parentElement) {
+        return _super.call(this, View_DomainListComponent_Host0, renderType_DomainListComponent_Host, __WEBPACK_IMPORTED_MODULE_4__angular_core_src_linker_view_type__["a" /* ViewType */].HOST, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_5__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways) || this;
+    }
+    View_DomainListComponent_Host0.prototype.createInternal = function (rootSelector) {
+        this._el_0 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["selectOrCreateRenderHostElement"](this.renderer, 'domain-list', __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], rootSelector, null);
+        this.compView_0 = new View_DomainListComponent0(this.viewUtils, this, 0, this._el_0);
+        this._DomainListComponent_0_3 = new Wrapper_DomainListComponent(this.injectorGet(__WEBPACK_IMPORTED_MODULE_7__app_lists_components_lists_service__["a" /* ListsService */], this.parentIndex));
+        this.compView_0.create(this._DomainListComponent_0_3.context);
+        this.init(this._el_0, (this.renderer.directRenderer ? null : [this._el_0]), null);
+        return new __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_component_factory__["a" /* ComponentRef_ */](0, this, this._el_0, this._DomainListComponent_0_3.context);
+    };
+    View_DomainListComponent_Host0.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
+        if (((token === __WEBPACK_IMPORTED_MODULE_0__app_lists_components_domain_list_component__["a" /* DomainListComponent */]) && (0 === requestNodeIndex))) {
+            return this._DomainListComponent_0_3.context;
+        }
+        return notFoundResult;
+    };
+    View_DomainListComponent_Host0.prototype.detectChangesInternal = function (throwOnChange) {
+        this._DomainListComponent_0_3.ngDoCheck(this, this._el_0, throwOnChange);
+        this.compView_0.internalDetectChanges(throwOnChange);
+    };
+    View_DomainListComponent_Host0.prototype.destroyInternal = function () {
+        this.compView_0.destroy();
+        this._DomainListComponent_0_3.ngOnDestroy();
+    };
+    View_DomainListComponent_Host0.prototype.visitRootNodesInternal = function (cb, ctx) {
+        cb(this._el_0, ctx);
+    };
+    return View_DomainListComponent_Host0;
+}(__WEBPACK_IMPORTED_MODULE_1__angular_core_src_linker_view__["a" /* AppView */]));
+var DomainListComponentNgFactory = new __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_component_factory__["b" /* ComponentFactory */]('domain-list', View_DomainListComponent_Host0, __WEBPACK_IMPORTED_MODULE_0__app_lists_components_domain_list_component__["a" /* DomainListComponent */]);
+var styles_DomainListComponent = [];
+var View_DomainListComponent2 = (function (_super) {
+    __extends(View_DomainListComponent2, _super);
+    function View_DomainListComponent2(viewUtils, parentView, parentIndex, parentElement, declaredViewContainer) {
+        return _super.call(this, View_DomainListComponent2, renderType_DomainListComponent, __WEBPACK_IMPORTED_MODULE_4__angular_core_src_linker_view_type__["a" /* ViewType */].EMBEDDED, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_5__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways, declaredViewContainer) || this;
+    }
+    View_DomainListComponent2.prototype.createInternal = function (rootSelector) {
+        this._el_0 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, null, 'domain-list-item', __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], null);
+        this.compView_0 = new __WEBPACK_IMPORTED_MODULE_9__domain_list_item_component_ngfactory__["a" /* View_DomainListItemComponent0 */](this.viewUtils, this, 0, this._el_0);
+        this._DomainListItemComponent_0_3 = new __WEBPACK_IMPORTED_MODULE_9__domain_list_item_component_ngfactory__["b" /* Wrapper_DomainListItemComponent */](this.parentView.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_7__app_lists_components_lists_service__["a" /* ListsService */], this.parentView.parentIndex));
+        this.compView_0.create(this._DomainListItemComponent_0_3.context);
+        this.init(this._el_0, (this.renderer.directRenderer ? null : [this._el_0]), null);
+        return null;
+    };
+    View_DomainListComponent2.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
+        if (((token === __WEBPACK_IMPORTED_MODULE_8__app_lists_components_domain_list_item_component__["a" /* DomainListItemComponent */]) && (0 === requestNodeIndex))) {
+            return this._DomainListItemComponent_0_3.context;
+        }
+        return notFoundResult;
+    };
+    View_DomainListComponent2.prototype.detectChangesInternal = function (throwOnChange) {
+        var currVal_0_0_0 = this.context.$implicit;
+        this._DomainListItemComponent_0_3.check_listEnty(currVal_0_0_0, throwOnChange, false);
+        this._DomainListItemComponent_0_3.ngDoCheck(this, this._el_0, throwOnChange);
+        this.compView_0.internalDetectChanges(throwOnChange);
+    };
+    View_DomainListComponent2.prototype.destroyInternal = function () {
+        this.compView_0.destroy();
+    };
+    View_DomainListComponent2.prototype.visitRootNodesInternal = function (cb, ctx) {
+        cb(this._el_0, ctx);
+    };
+    return View_DomainListComponent2;
+}(__WEBPACK_IMPORTED_MODULE_1__angular_core_src_linker_view__["a" /* AppView */]));
+var View_DomainListComponent1 = (function (_super) {
+    __extends(View_DomainListComponent1, _super);
+    function View_DomainListComponent1(viewUtils, parentView, parentIndex, parentElement, declaredViewContainer) {
+        return _super.call(this, View_DomainListComponent1, renderType_DomainListComponent, __WEBPACK_IMPORTED_MODULE_4__angular_core_src_linker_view_type__["a" /* ViewType */].EMBEDDED, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_5__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways, declaredViewContainer) || this;
+    }
+    View_DomainListComponent1.prototype.createInternal = function (rootSelector) {
+        this._el_0 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, null, 'ul', new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'list-group'), null);
+        this._anchor_1 = this.renderer.createTemplateAnchor(this._el_0, null);
+        this._vc_1 = new __WEBPACK_IMPORTED_MODULE_10__angular_core_src_linker_view_container__["a" /* ViewContainer */](1, 0, this, this._anchor_1);
+        this._TemplateRef_1_5 = new __WEBPACK_IMPORTED_MODULE_12__angular_core_src_linker_template_ref__["a" /* TemplateRef_ */](this, 1, this._anchor_1);
+        this._NgFor_1_6 = new __WEBPACK_IMPORTED_MODULE_11__gendir_node_modules_angular_common_src_directives_ng_for_ngfactory__["a" /* Wrapper_NgFor */](this._vc_1.vcRef, this._TemplateRef_1_5, this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_13__angular_core_src_change_detection_differs_iterable_differs__["a" /* IterableDiffers */], this.parentIndex), this.parentView.ref);
+        this.init(this._el_0, (this.renderer.directRenderer ? null : [
+            this._el_0,
+            this._anchor_1
+        ]), null);
+        return null;
+    };
+    View_DomainListComponent1.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
+        if (((token === __WEBPACK_IMPORTED_MODULE_12__angular_core_src_linker_template_ref__["b" /* TemplateRef */]) && (1 === requestNodeIndex))) {
+            return this._TemplateRef_1_5;
+        }
+        if (((token === __WEBPACK_IMPORTED_MODULE_14__angular_common_src_directives_ng_for__["a" /* NgFor */]) && (1 === requestNodeIndex))) {
+            return this._NgFor_1_6.context;
+        }
+        return notFoundResult;
+    };
+    View_DomainListComponent1.prototype.detectChangesInternal = function (throwOnChange) {
+        var currVal_1_0_0 = this.parentView.context.domainList;
+        this._NgFor_1_6.check_ngForOf(currVal_1_0_0, throwOnChange, false);
+        this._NgFor_1_6.ngDoCheck(this, this._anchor_1, throwOnChange);
+        this._vc_1.detectChangesInNestedViews(throwOnChange);
+    };
+    View_DomainListComponent1.prototype.destroyInternal = function () {
+        this._vc_1.destroyNestedViews();
+    };
+    View_DomainListComponent1.prototype.visitRootNodesInternal = function (cb, ctx) {
+        cb(this._el_0, ctx);
+    };
+    View_DomainListComponent1.prototype.createEmbeddedViewInternal = function (nodeIndex) {
+        if ((nodeIndex == 1)) {
+            return new View_DomainListComponent2(this.viewUtils, this, 1, this._anchor_1, this._vc_1);
+        }
+        return null;
+    };
+    return View_DomainListComponent1;
+}(__WEBPACK_IMPORTED_MODULE_1__angular_core_src_linker_view__["a" /* AppView */]));
+var renderType_DomainListComponent = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderComponentType"]('', 0, __WEBPACK_IMPORTED_MODULE_3__angular_core_src_metadata_view__["b" /* ViewEncapsulation */].None, styles_DomainListComponent, {});
+var View_DomainListComponent0 = (function (_super) {
+    __extends(View_DomainListComponent0, _super);
+    function View_DomainListComponent0(viewUtils, parentView, parentIndex, parentElement) {
+        return _super.call(this, View_DomainListComponent0, renderType_DomainListComponent, __WEBPACK_IMPORTED_MODULE_4__angular_core_src_linker_view_type__["a" /* ViewType */].COMPONENT, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_5__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways) || this;
+    }
+    View_DomainListComponent0.prototype.createInternal = function (rootSelector) {
+        var parentRenderNode = this.renderer.createViewRoot(this.parentElement);
+        this._anchor_0 = this.renderer.createTemplateAnchor(parentRenderNode, null);
+        this._vc_0 = new __WEBPACK_IMPORTED_MODULE_10__angular_core_src_linker_view_container__["a" /* ViewContainer */](0, null, this, this._anchor_0);
+        this._TemplateRef_0_5 = new __WEBPACK_IMPORTED_MODULE_12__angular_core_src_linker_template_ref__["a" /* TemplateRef_ */](this, 0, this._anchor_0);
+        this._NgIf_0_6 = new __WEBPACK_IMPORTED_MODULE_15__gendir_node_modules_angular_common_src_directives_ng_if_ngfactory__["a" /* Wrapper_NgIf */](this._vc_0.vcRef, this._TemplateRef_0_5);
+        this.init(null, (this.renderer.directRenderer ? null : [this._anchor_0]), null);
+        return null;
+    };
+    View_DomainListComponent0.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
+        if (((token === __WEBPACK_IMPORTED_MODULE_12__angular_core_src_linker_template_ref__["b" /* TemplateRef */]) && (0 === requestNodeIndex))) {
+            return this._TemplateRef_0_5;
+        }
+        if (((token === __WEBPACK_IMPORTED_MODULE_16__angular_common_src_directives_ng_if__["a" /* NgIf */]) && (0 === requestNodeIndex))) {
+            return this._NgIf_0_6.context;
+        }
+        return notFoundResult;
+    };
+    View_DomainListComponent0.prototype.detectChangesInternal = function (throwOnChange) {
+        var currVal_0_0_0 = (((this.context.domainList == null) ? null : this.context.domainList.length) > 0);
+        this._NgIf_0_6.check_ngIf(currVal_0_0_0, throwOnChange, false);
+        this._NgIf_0_6.ngDoCheck(this, this._anchor_0, throwOnChange);
+        this._vc_0.detectChangesInNestedViews(throwOnChange);
+    };
+    View_DomainListComponent0.prototype.destroyInternal = function () {
+        this._vc_0.destroyNestedViews();
+    };
+    View_DomainListComponent0.prototype.createEmbeddedViewInternal = function (nodeIndex) {
+        if ((nodeIndex == 0)) {
+            return new View_DomainListComponent1(this.viewUtils, this, 0, this._anchor_0, this._vc_0);
+        }
+        return null;
+    };
+    return View_DomainListComponent0;
+}(__WEBPACK_IMPORTED_MODULE_1__angular_core_src_linker_view__["a" /* AppView */]));
+
+//# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/domain-list.component.ngfactory.js.map
+
+/***/ }),
+
+/***/ 982:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_lists_components_lists_component__ = __webpack_require__(976);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core_src_linker_view__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core_src_metadata_view__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_lists_components_lists_service__ = __webpack_require__(972);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_core_src_linker_view_type__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_core_src_change_detection_constants__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_core_src_linker_component_factory__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_services_pihole_api_service__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ng2_bootstrap_alert_alert_component__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__gendir_node_modules_ng2_bootstrap_alert_alert_component_ngfactory__ = __webpack_require__(263);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_core_src_linker_view_container__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_ng2_bootstrap_alert_alert_config__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__gendir_node_modules_angular_common_src_directives_ng_if_ngfactory__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__app_lists_components_domain_input_component__ = __webpack_require__(973);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__domain_input_component_ngfactory__ = __webpack_require__(979);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__app_lists_components_domain_list_component__ = __webpack_require__(975);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__domain_list_component_ngfactory__ = __webpack_require__(981);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__angular_core_src_change_detection_change_detection_util__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__angular_core_src_linker_template_ref__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__angular_common_src_directives_ng_if__ = __webpack_require__(29);
+/* unused harmony export Wrapper_ListsComponent */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListsComponentNgFactory; });
+/* unused harmony export View_ListsComponent0 */
+/**
+ * @fileoverview This file is generated by the Angular 2 template compiler.
+ * Do not edit.
+ * @suppress {suspiciousCode,uselessCode,missingProperties}
+ */
+/* tslint:disable */
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 
 var Wrapper_ListsComponent = (function () {
-    function Wrapper_ListsComponent(p0, p1, p2) {
+    function Wrapper_ListsComponent(p0) {
         this._changed = false;
-        this.context = new __WEBPACK_IMPORTED_MODULE_0__app_lists_components_lists_component__["a" /* ListsComponent */](p0, p1, p2);
-        this._expr_0 = __WEBPACK_IMPORTED_MODULE_1__angular_core_src_change_detection_change_detection_util__["b" /* UNINITIALIZED */];
+        this.context = new __WEBPACK_IMPORTED_MODULE_0__app_lists_components_lists_component__["a" /* ListsComponent */](p0);
     }
     Wrapper_ListsComponent.prototype.ngOnDetach = function (view, componentView, el) {
     };
     Wrapper_ListsComponent.prototype.ngOnDestroy = function () {
-    };
-    Wrapper_ListsComponent.prototype.check_domain = function (currValue, throwOnChange, forceUpdate) {
-        if ((forceUpdate || __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["checkBinding"](throwOnChange, this._expr_0, currValue))) {
-            this._changed = true;
-            this.context.domain = currValue;
-            this._expr_0 = currValue;
-        }
+        this.context.ngOnDestroy();
     };
     Wrapper_ListsComponent.prototype.ngDoCheck = function (view, el, throwOnChange) {
         var changed = this._changed;
@@ -461,186 +1204,68 @@ var Wrapper_ListsComponent = (function () {
     return Wrapper_ListsComponent;
 }());
 
-var renderType_ListsComponent_Host = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderComponentType"]('', 0, __WEBPACK_IMPORTED_MODULE_4__angular_core_src_metadata_view__["b" /* ViewEncapsulation */].None, [], {});
+var renderType_ListsComponent_Host = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderComponentType"]('', 0, __WEBPACK_IMPORTED_MODULE_3__angular_core_src_metadata_view__["b" /* ViewEncapsulation */].None, [], {});
 var View_ListsComponent_Host0 = (function (_super) {
     __extends(View_ListsComponent_Host0, _super);
     function View_ListsComponent_Host0(viewUtils, parentView, parentIndex, parentElement) {
-        return _super.call(this, View_ListsComponent_Host0, renderType_ListsComponent_Host, __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_view_type__["a" /* ViewType */].HOST, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_7__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways) || this;
+        return _super.call(this, View_ListsComponent_Host0, renderType_ListsComponent_Host, __WEBPACK_IMPORTED_MODULE_5__angular_core_src_linker_view_type__["a" /* ViewType */].HOST, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_6__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways) || this;
     }
     View_ListsComponent_Host0.prototype.createInternal = function (rootSelector) {
-        this._el_0 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["selectOrCreateRenderHostElement"](this.renderer, 'ng-component', __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], rootSelector, null);
+        this._el_0 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["selectOrCreateRenderHostElement"](this.renderer, 'ng-component', __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], rootSelector, null);
         this.compView_0 = new View_ListsComponent0(this.viewUtils, this, 0, this._el_0);
-        this._ListsComponent_0_3 = new Wrapper_ListsComponent(this.injectorGet(__WEBPACK_IMPORTED_MODULE_9__app_services_pihole_api_service__["a" /* PiholeApiService */], this.parentIndex), this.injectorGet(__WEBPACK_IMPORTED_MODULE_10__angular_router_src_router_state__["a" /* ActivatedRoute */], this.parentIndex), this.injectorGet(__WEBPACK_IMPORTED_MODULE_11__angular_core_src_zone_ng_zone__["a" /* NgZone */], this.parentIndex));
-        this._query_AlertComponent_0_0 = new __WEBPACK_IMPORTED_MODULE_5__angular_core_src_linker_query_list__["a" /* QueryList */]();
-        this.compView_0.create(this._ListsComponent_0_3.context);
-        this._query_AlertComponent_0_0.reset([]);
-        this._ListsComponent_0_3.context.alertMsg = this._query_AlertComponent_0_0.first;
+        this._ListsService_0_3 = new __WEBPACK_IMPORTED_MODULE_4__app_lists_components_lists_service__["a" /* ListsService */](this.injectorGet(__WEBPACK_IMPORTED_MODULE_8__app_services_pihole_api_service__["a" /* PiholeApiService */], this.parentIndex));
+        this._ListsComponent_0_4 = new Wrapper_ListsComponent(this._ListsService_0_3);
+        this.compView_0.create(this._ListsComponent_0_4.context);
         this.init(this._el_0, (this.renderer.directRenderer ? null : [this._el_0]), null);
-        return new __WEBPACK_IMPORTED_MODULE_8__angular_core_src_linker_component_factory__["a" /* ComponentRef_ */](0, this, this._el_0, this._ListsComponent_0_3.context);
+        return new __WEBPACK_IMPORTED_MODULE_7__angular_core_src_linker_component_factory__["a" /* ComponentRef_ */](0, this, this._el_0, this._ListsComponent_0_4.context);
     };
     View_ListsComponent_Host0.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
+        if (((token === __WEBPACK_IMPORTED_MODULE_4__app_lists_components_lists_service__["a" /* ListsService */]) && (0 === requestNodeIndex))) {
+            return this._ListsService_0_3;
+        }
         if (((token === __WEBPACK_IMPORTED_MODULE_0__app_lists_components_lists_component__["a" /* ListsComponent */]) && (0 === requestNodeIndex))) {
-            return this._ListsComponent_0_3.context;
+            return this._ListsComponent_0_4.context;
         }
         return notFoundResult;
     };
     View_ListsComponent_Host0.prototype.detectChangesInternal = function (throwOnChange) {
-        this._ListsComponent_0_3.ngDoCheck(this, this._el_0, throwOnChange);
+        this._ListsComponent_0_4.ngDoCheck(this, this._el_0, throwOnChange);
         this.compView_0.internalDetectChanges(throwOnChange);
     };
     View_ListsComponent_Host0.prototype.destroyInternal = function () {
         this.compView_0.destroy();
+        this._ListsComponent_0_4.ngOnDestroy();
     };
     View_ListsComponent_Host0.prototype.visitRootNodesInternal = function (cb, ctx) {
         cb(this._el_0, ctx);
     };
     return View_ListsComponent_Host0;
-}(__WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view__["a" /* AppView */]));
-var ListsComponentNgFactory = new __WEBPACK_IMPORTED_MODULE_8__angular_core_src_linker_component_factory__["b" /* ComponentFactory */]('ng-component', View_ListsComponent_Host0, __WEBPACK_IMPORTED_MODULE_0__app_lists_components_lists_component__["a" /* ListsComponent */]);
+}(__WEBPACK_IMPORTED_MODULE_1__angular_core_src_linker_view__["a" /* AppView */]));
+var ListsComponentNgFactory = new __WEBPACK_IMPORTED_MODULE_7__angular_core_src_linker_component_factory__["b" /* ComponentFactory */]('ng-component', View_ListsComponent_Host0, __WEBPACK_IMPORTED_MODULE_0__app_lists_components_lists_component__["a" /* ListsComponent */]);
 var styles_ListsComponent = [];
 var View_ListsComponent1 = (function (_super) {
     __extends(View_ListsComponent1, _super);
     function View_ListsComponent1(viewUtils, parentView, parentIndex, parentElement, declaredViewContainer) {
-        return _super.call(this, View_ListsComponent1, renderType_ListsComponent, __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_view_type__["a" /* ViewType */].EMBEDDED, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_7__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways, declaredViewContainer) || this;
+        return _super.call(this, View_ListsComponent1, renderType_ListsComponent, __WEBPACK_IMPORTED_MODULE_5__angular_core_src_linker_view_type__["a" /* ViewType */].EMBEDDED, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_6__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways, declaredViewContainer) || this;
     }
     View_ListsComponent1.prototype.createInternal = function (rootSelector) {
-        this._el_0 = this.renderer.createTemplateAnchor(null, null);
-        this._el_1 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, null, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'row'), null);
-        this._el_2 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_1, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'col-md-12'), null);
-        this._el_3 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_2, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'callout callout-warning'), null);
-        this._el_4 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_3, 'h4', __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], null);
-        this._text_5 = this.renderer.createText(this._el_4, 'The list type you were asking for is unknown', null);
-        this._el_6 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_3, 'p', __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], null);
-        this._text_7 = this.renderer.createText(this._el_6, 'Choose one of the list types below', null);
-        this._el_8 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_1, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'row'), null);
-        this._el_9 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_1, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'col-lg-3 col-md-6 col-xs-12'), null);
-        this._el_10 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_9, 'a', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray4"](4, 'queryParams', '{l:\'white\'}', 'routerLink', 'list'), null);
-        this._RouterLinkWithHref_10_3 = new __WEBPACK_IMPORTED_MODULE_12__gendir_node_modules_angular_router_src_directives_router_link_ngfactory__["a" /* Wrapper_RouterLinkWithHref */](this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_14__angular_router_src_router__["a" /* Router */], this.parentIndex), this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_10__angular_router_src_router_state__["a" /* ActivatedRoute */], this.parentIndex), this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_15__angular_common_src_location_location_strategy__["b" /* LocationStrategy */], this.parentIndex));
-        this._el_11 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_10, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'small-box bg-green'), null);
-        this._el_12 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_11, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'inner'), null);
-        this._el_13 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_12, 'h3', __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], null);
-        this._text_14 = this.renderer.createText(this._el_13, 'Whitelist', null);
-        this._el_15 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_12, 'p', __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], null);
-        this._text_16 = this.renderer.createText(this._el_15, 'Domains Being Whitelisted', null);
-        this._el_17 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_11, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'icon'), null);
-        this._el_18 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_17, 'i', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'fa fa-pencil-square-o'), null);
-        this._el_19 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_1, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'col-lg-3 col-md-6 col-xs-12'), null);
-        this._el_20 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_19, 'a', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray4"](4, 'queryParams', '{l:\'black\'}', 'routerLink', 'list'), null);
-        this._RouterLinkWithHref_20_3 = new __WEBPACK_IMPORTED_MODULE_12__gendir_node_modules_angular_router_src_directives_router_link_ngfactory__["a" /* Wrapper_RouterLinkWithHref */](this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_14__angular_router_src_router__["a" /* Router */], this.parentIndex), this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_10__angular_router_src_router_state__["a" /* ActivatedRoute */], this.parentIndex), this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_15__angular_common_src_location_location_strategy__["b" /* LocationStrategy */], this.parentIndex));
-        this._el_21 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_20, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'small-box bg-red'), null);
-        this._el_22 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_21, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'inner'), null);
-        this._el_23 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_22, 'h3', __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], null);
-        this._text_24 = this.renderer.createText(this._el_23, 'Blacklist', null);
-        this._el_25 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_23, 'p', __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], null);
-        this._text_26 = this.renderer.createText(this._el_25, 'Domains Being Blocked', null);
-        this._el_27 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_21, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'icon'), null);
-        this._el_28 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_27, 'i', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'fa fa-ban'), null);
-        var disposable_0 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["subscribeToRenderElement"](this, this._el_10, new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'click', null), this.eventHandler(this.handleEvent_10));
-        var disposable_1 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["subscribeToRenderElement"](this, this._el_20, new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'click', null), this.eventHandler(this.handleEvent_20));
-        this.init(this._el_1, (this.renderer.directRenderer ? null : [
-            this._el_0,
-            this._el_1,
-            this._el_2,
-            this._el_3,
-            this._el_4,
-            this._text_5,
-            this._el_6,
-            this._text_7,
-            this._el_8,
-            this._el_9,
-            this._el_10,
-            this._el_11,
-            this._el_12,
-            this._el_13,
-            this._text_14,
-            this._el_15,
-            this._text_16,
-            this._el_17,
-            this._el_18,
-            this._el_19,
-            this._el_20,
-            this._el_21,
-            this._el_22,
-            this._el_23,
-            this._text_24,
-            this._el_25,
-            this._text_26,
-            this._el_27,
-            this._el_28
-        ]), [
-            disposable_0,
-            disposable_1
-        ]);
-        return null;
-    };
-    View_ListsComponent1.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
-        if (((token === __WEBPACK_IMPORTED_MODULE_16__angular_router_src_directives_router_link__["b" /* RouterLinkWithHref */]) && ((10 <= requestNodeIndex) && (requestNodeIndex <= 18)))) {
-            return this._RouterLinkWithHref_10_3.context;
-        }
-        if (((token === __WEBPACK_IMPORTED_MODULE_16__angular_router_src_directives_router_link__["b" /* RouterLinkWithHref */]) && ((20 <= requestNodeIndex) && (requestNodeIndex <= 28)))) {
-            return this._RouterLinkWithHref_20_3.context;
-        }
-        return notFoundResult;
-    };
-    View_ListsComponent1.prototype.detectChangesInternal = function (throwOnChange) {
-        var currVal_10_0_0 = '{l:\'white\'}';
-        this._RouterLinkWithHref_10_3.check_queryParams(currVal_10_0_0, throwOnChange, false);
-        var currVal_10_0_1 = 'list';
-        this._RouterLinkWithHref_10_3.check_routerLink(currVal_10_0_1, throwOnChange, false);
-        this._RouterLinkWithHref_10_3.ngDoCheck(this, this._el_10, throwOnChange);
-        var currVal_20_0_0 = '{l:\'black\'}';
-        this._RouterLinkWithHref_20_3.check_queryParams(currVal_20_0_0, throwOnChange, false);
-        var currVal_20_0_1 = 'list';
-        this._RouterLinkWithHref_20_3.check_routerLink(currVal_20_0_1, throwOnChange, false);
-        this._RouterLinkWithHref_20_3.ngDoCheck(this, this._el_20, throwOnChange);
-        this._RouterLinkWithHref_10_3.checkHost(this, this, this._el_10, throwOnChange);
-        this._RouterLinkWithHref_20_3.checkHost(this, this, this._el_20, throwOnChange);
-    };
-    View_ListsComponent1.prototype.destroyInternal = function () {
-        this._RouterLinkWithHref_10_3.ngOnDestroy();
-        this._RouterLinkWithHref_20_3.ngOnDestroy();
-    };
-    View_ListsComponent1.prototype.visitRootNodesInternal = function (cb, ctx) {
-        cb(this._el_0, ctx);
-        cb(this._el_1, ctx);
-    };
-    View_ListsComponent1.prototype.handleEvent_10 = function (eventName, $event) {
-        this.markPathToRootAsCheckOnce();
-        var result = true;
-        result = (this._RouterLinkWithHref_10_3.handleEvent(eventName, $event) && result);
-        return result;
-    };
-    View_ListsComponent1.prototype.handleEvent_20 = function (eventName, $event) {
-        this.markPathToRootAsCheckOnce();
-        var result = true;
-        result = (this._RouterLinkWithHref_20_3.handleEvent(eventName, $event) && result);
-        return result;
-    };
-    return View_ListsComponent1;
-}(__WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view__["a" /* AppView */]));
-var View_ListsComponent3 = (function (_super) {
-    __extends(View_ListsComponent3, _super);
-    function View_ListsComponent3(viewUtils, parentView, parentIndex, parentElement, declaredViewContainer) {
-        return _super.call(this, View_ListsComponent3, renderType_ListsComponent, __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_view_type__["a" /* ViewType */].EMBEDDED, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_7__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways, declaredViewContainer) || this;
-    }
-    View_ListsComponent3.prototype.createInternal = function (rootSelector) {
-        this._el_0 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, null, 'alert', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray4"](4, 'dismissOnTimeout', '5000', 'dismissible', 'true'), null);
-        this.compView_0 = new __WEBPACK_IMPORTED_MODULE_18__gendir_node_modules_ng2_bootstrap_alert_alert_component_ngfactory__["b" /* View_AlertComponent0 */](this.viewUtils, this, 0, this._el_0);
-        this._AlertComponent_0_3 = new __WEBPACK_IMPORTED_MODULE_18__gendir_node_modules_ng2_bootstrap_alert_alert_component_ngfactory__["c" /* Wrapper_AlertComponent */](this.parentView.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_19_ng2_bootstrap_alert_alert_config__["a" /* AlertConfig */], this.parentView.parentIndex));
+        this._el_0 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, null, 'alert', new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray4"](4, 'dismissOnTimeout', '5000', 'dismissible', 'true'), null);
+        this.compView_0 = new __WEBPACK_IMPORTED_MODULE_10__gendir_node_modules_ng2_bootstrap_alert_alert_component_ngfactory__["b" /* View_AlertComponent0 */](this.viewUtils, this, 0, this._el_0);
+        this._AlertComponent_0_3 = new __WEBPACK_IMPORTED_MODULE_10__gendir_node_modules_ng2_bootstrap_alert_alert_component_ngfactory__["c" /* Wrapper_AlertComponent */](this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_12_ng2_bootstrap_alert_alert_config__["a" /* AlertConfig */], this.parentIndex));
         this.compView_0.create(this._AlertComponent_0_3.context);
-        var disposable_0 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["subscribeToRenderElement"](this, this._el_0, new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'onClosed', null), this.eventHandler(this.handleEvent_0));
+        var disposable_0 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["subscribeToRenderElement"](this, this._el_0, new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray2"](2, 'onClosed', null), this.eventHandler(this.handleEvent_0));
         this._AlertComponent_0_3.subscribe(this, this.eventHandler(this.handleEvent_0), false, true);
         this.init(this._el_0, (this.renderer.directRenderer ? null : [this._el_0]), [disposable_0]);
         return null;
     };
-    View_ListsComponent3.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
-        if (((token === __WEBPACK_IMPORTED_MODULE_17_ng2_bootstrap_alert_alert_component__["a" /* AlertComponent */]) && (0 === requestNodeIndex))) {
+    View_ListsComponent1.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
+        if (((token === __WEBPACK_IMPORTED_MODULE_9_ng2_bootstrap_alert_alert_component__["a" /* AlertComponent */]) && (0 === requestNodeIndex))) {
             return this._AlertComponent_0_3.context;
         }
         return notFoundResult;
     };
-    View_ListsComponent3.prototype.detectChangesInternal = function (throwOnChange) {
-        var currVal_0_0_0 = this.parentView.parentView.context.statusType;
+    View_ListsComponent1.prototype.detectChangesInternal = function (throwOnChange) {
+        var currVal_0_0_0 = this.parentView.context.statusType;
         this._AlertComponent_0_3.check_type(currVal_0_0_0, throwOnChange, false);
         var currVal_0_0_1 = 'true';
         this._AlertComponent_0_3.check_dismissible(currVal_0_0_1, throwOnChange, false);
@@ -649,377 +1274,116 @@ var View_ListsComponent3 = (function (_super) {
         this._AlertComponent_0_3.ngDoCheck(this, this._el_0, throwOnChange);
         this.compView_0.internalDetectChanges(throwOnChange);
     };
-    View_ListsComponent3.prototype.destroyInternal = function () {
+    View_ListsComponent1.prototype.destroyInternal = function () {
         this.compView_0.destroy();
         this._AlertComponent_0_3.ngOnDestroy();
     };
-    View_ListsComponent3.prototype.visitRootNodesInternal = function (cb, ctx) {
+    View_ListsComponent1.prototype.visitRootNodesInternal = function (cb, ctx) {
         cb(this._el_0, ctx);
     };
-    View_ListsComponent3.prototype.visitProjectableNodesInternal = function (nodeIndex, ngContentIndex, cb, ctx) {
+    View_ListsComponent1.prototype.visitProjectableNodesInternal = function (nodeIndex, ngContentIndex, cb, ctx) {
         if (((nodeIndex == 0) && (ngContentIndex == 0))) { }
     };
-    View_ListsComponent3.prototype.handleEvent_0 = function (eventName, $event) {
+    View_ListsComponent1.prototype.handleEvent_0 = function (eventName, $event) {
         this.markPathToRootAsCheckOnce();
         var result = true;
         if ((eventName == 'onClosed')) {
-            var pd_sub_0 = (this.parentView.parentView.context.alertClosed($event) !== false);
+            var pd_sub_0 = (this.parentView.context.alertClosed($event) !== false);
             result = (pd_sub_0 && result);
         }
         return result;
     };
-    return View_ListsComponent3;
-}(__WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view__["a" /* AppView */]));
-var View_ListsComponent5 = (function (_super) {
-    __extends(View_ListsComponent5, _super);
-    function View_ListsComponent5(viewUtils, parentView, parentIndex, parentElement, declaredViewContainer) {
-        var _this = _super.call(this, View_ListsComponent5, renderType_ListsComponent, __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_view_type__["a" /* ViewType */].EMBEDDED, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_7__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways, declaredViewContainer) || this;
-        _this._expr_4 = __WEBPACK_IMPORTED_MODULE_1__angular_core_src_change_detection_change_detection_util__["b" /* UNINITIALIZED */];
-        return _this;
-    }
-    View_ListsComponent5.prototype.createInternal = function (rootSelector) {
-        this._el_0 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, null, 'li', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'list-group-item clearfix'), null);
-        this._text_1 = this.renderer.createText(this._el_0, '', null);
-        this._el_2 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_0, 'button', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray4"](4, 'class', 'btn btn-danger btn-xs pull-right', 'type', 'button'), null);
-        this._el_3 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_2, 'span', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'glyphicon glyphicon-trash'), null);
-        var disposable_0 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["subscribeToRenderElement"](this, this._el_2, new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'click', null), this.eventHandler(this.handleEvent_2));
-        this.init(this._el_0, (this.renderer.directRenderer ? null : [
-            this._el_0,
-            this._text_1,
-            this._el_2,
-            this._el_3
-        ]), [disposable_0]);
-        return null;
-    };
-    View_ListsComponent5.prototype.detectChangesInternal = function (throwOnChange) {
-        var currVal_4 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["inlineInterpolate"](1, '', this.context.$implicit.domain, '');
-        if (__WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["checkBinding"](throwOnChange, this._expr_4, currVal_4)) {
-            this.renderer.setText(this._text_1, currVal_4);
-            this._expr_4 = currVal_4;
-        }
-    };
-    View_ListsComponent5.prototype.visitRootNodesInternal = function (cb, ctx) {
-        cb(this._el_0, ctx);
-    };
-    View_ListsComponent5.prototype.handleEvent_2 = function (eventName, $event) {
-        this.markPathToRootAsCheckOnce();
-        var result = true;
-        if ((eventName == 'click')) {
-            var pd_sub_0 = (this.parentView.parentView.parentView.context.remove(this.context.$implicit) !== false);
-            result = (pd_sub_0 && result);
-        }
-        return result;
-    };
-    return View_ListsComponent5;
-}(__WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view__["a" /* AppView */]));
-var View_ListsComponent4 = (function (_super) {
-    __extends(View_ListsComponent4, _super);
-    function View_ListsComponent4(viewUtils, parentView, parentIndex, parentElement, declaredViewContainer) {
-        return _super.call(this, View_ListsComponent4, renderType_ListsComponent, __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_view_type__["a" /* ViewType */].EMBEDDED, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_7__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways, declaredViewContainer) || this;
-    }
-    View_ListsComponent4.prototype.createInternal = function (rootSelector) {
-        this._el_0 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, null, 'ul', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'list-group'), null);
-        this._anchor_1 = this.renderer.createTemplateAnchor(this._el_0, null);
-        this._vc_1 = new __WEBPACK_IMPORTED_MODULE_13__angular_core_src_linker_view_container__["a" /* ViewContainer */](1, 0, this, this._anchor_1);
-        this._TemplateRef_1_5 = new __WEBPACK_IMPORTED_MODULE_21__angular_core_src_linker_template_ref__["a" /* TemplateRef_ */](this, 1, this._anchor_1);
-        this._NgFor_1_6 = new __WEBPACK_IMPORTED_MODULE_20__gendir_node_modules_angular_common_src_directives_ng_for_ngfactory__["a" /* Wrapper_NgFor */](this._vc_1.vcRef, this._TemplateRef_1_5, this.parentView.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_22__angular_core_src_change_detection_differs_iterable_differs__["a" /* IterableDiffers */], this.parentView.parentIndex), this.parentView.parentView.ref);
-        this.init(this._el_0, (this.renderer.directRenderer ? null : [
-            this._el_0,
-            this._anchor_1
-        ]), null);
-        return null;
-    };
-    View_ListsComponent4.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
-        if (((token === __WEBPACK_IMPORTED_MODULE_21__angular_core_src_linker_template_ref__["b" /* TemplateRef */]) && (1 === requestNodeIndex))) {
-            return this._TemplateRef_1_5;
-        }
-        if (((token === __WEBPACK_IMPORTED_MODULE_23__angular_common_src_directives_ng_for__["a" /* NgFor */]) && (1 === requestNodeIndex))) {
-            return this._NgFor_1_6.context;
-        }
-        return notFoundResult;
-    };
-    View_ListsComponent4.prototype.detectChangesInternal = function (throwOnChange) {
-        var currVal_1_0_0 = this.parentView.parentView.context.domainList;
-        this._NgFor_1_6.check_ngForOf(currVal_1_0_0, throwOnChange, false);
-        this._NgFor_1_6.ngDoCheck(this, this._anchor_1, throwOnChange);
-        this._vc_1.detectChangesInNestedViews(throwOnChange);
-    };
-    View_ListsComponent4.prototype.destroyInternal = function () {
-        this._vc_1.destroyNestedViews();
-    };
-    View_ListsComponent4.prototype.visitRootNodesInternal = function (cb, ctx) {
-        cb(this._el_0, ctx);
-    };
-    View_ListsComponent4.prototype.createEmbeddedViewInternal = function (nodeIndex) {
-        if ((nodeIndex == 1)) {
-            return new View_ListsComponent5(this.viewUtils, this, 1, this._anchor_1, this._vc_1);
-        }
-        return null;
-    };
-    return View_ListsComponent4;
-}(__WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view__["a" /* AppView */]));
-var View_ListsComponent6 = (function (_super) {
-    __extends(View_ListsComponent6, _super);
-    function View_ListsComponent6(viewUtils, parentView, parentIndex, parentElement, declaredViewContainer) {
-        return _super.call(this, View_ListsComponent6, renderType_ListsComponent, __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_view_type__["a" /* ViewType */].EMBEDDED, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_7__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways, declaredViewContainer) || this;
-    }
-    View_ListsComponent6.prototype.createInternal = function (rootSelector) {
-        this._el_0 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, null, 'p', __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], null);
-        this.init(this._el_0, (this.renderer.directRenderer ? null : [this._el_0]), null);
-        return null;
-    };
-    View_ListsComponent6.prototype.visitRootNodesInternal = function (cb, ctx) {
-        cb(this._el_0, ctx);
-    };
-    return View_ListsComponent6;
-}(__WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view__["a" /* AppView */]));
-var View_ListsComponent2 = (function (_super) {
-    __extends(View_ListsComponent2, _super);
-    function View_ListsComponent2(viewUtils, parentView, parentIndex, parentElement, declaredViewContainer) {
-        var _this = _super.call(this, View_ListsComponent2, renderType_ListsComponent, __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_view_type__["a" /* ViewType */].EMBEDDED, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_7__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways, declaredViewContainer) || this;
-        _this._expr_25 = __WEBPACK_IMPORTED_MODULE_1__angular_core_src_change_detection_change_detection_util__["b" /* UNINITIALIZED */];
-        _this._expr_26 = __WEBPACK_IMPORTED_MODULE_1__angular_core_src_change_detection_change_detection_util__["b" /* UNINITIALIZED */];
-        _this._expr_27 = __WEBPACK_IMPORTED_MODULE_1__angular_core_src_change_detection_change_detection_util__["b" /* UNINITIALIZED */];
-        _this._expr_28 = __WEBPACK_IMPORTED_MODULE_1__angular_core_src_change_detection_change_detection_util__["b" /* UNINITIALIZED */];
-        _this._map_29 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["pureProxy1"](function (p0) {
-            return { 'fa-spin': p0 };
-        });
-        return _this;
-    }
-    View_ListsComponent2.prototype.createInternal = function (rootSelector) {
-        this._el_0 = this.renderer.createTemplateAnchor(null, null);
-        this._el_1 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, null, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'page-header'), null);
-        this._el_2 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_1, 'h1', __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], null);
-        this._text_3 = this.renderer.createText(this._el_2, '', null);
-        this._el_4 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, null, 'div', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'form-group input-group'), null);
-        this._el_5 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_4, 'input', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray8"](6, 'class', 'form-control', 'placeholder', 'Add a domain (example.com or sub.example.com)', 'type', 'text'), null);
-        this._el_6 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_4, 'span', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'input-group-btn'), null);
-        this._el_7 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_6, 'button', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray4"](4, 'class', 'btn btn-default', 'type', 'button'), null);
-        this._el_8 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_7, 'i', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'fa fa-plus'), null);
-        this._el_9 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_6, 'button', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray4"](4, 'class', 'btn btn-default', 'type', 'button'), null);
-        this._el_10 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_9, 'i', new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'fa fa-refresh'), null);
-        this._NgClass_10_3 = new __WEBPACK_IMPORTED_MODULE_24__gendir_node_modules_angular_common_src_directives_ng_class_ngfactory__["a" /* Wrapper_NgClass */](this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_22__angular_core_src_change_detection_differs_iterable_differs__["a" /* IterableDiffers */], this.parentIndex), this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_26__angular_core_src_change_detection_differs_keyvalue_differs__["a" /* KeyValueDiffers */], this.parentIndex), new __WEBPACK_IMPORTED_MODULE_27__angular_core_src_linker_element_ref__["a" /* ElementRef */](this._el_10), this.renderer);
-        this._anchor_11 = this.renderer.createTemplateAnchor(null, null);
-        this._vc_11 = new __WEBPACK_IMPORTED_MODULE_13__angular_core_src_linker_view_container__["a" /* ViewContainer */](11, 0, this, this._anchor_11);
-        this._TemplateRef_11_5 = new __WEBPACK_IMPORTED_MODULE_21__angular_core_src_linker_template_ref__["a" /* TemplateRef_ */](this, 11, this._anchor_11);
-        this._NgIf_11_6 = new __WEBPACK_IMPORTED_MODULE_25__gendir_node_modules_angular_common_src_directives_ng_if_ngfactory__["a" /* Wrapper_NgIf */](this._vc_11.vcRef, this._TemplateRef_11_5);
-        this._anchor_12 = this.renderer.createTemplateAnchor(null, null);
-        this._vc_12 = new __WEBPACK_IMPORTED_MODULE_13__angular_core_src_linker_view_container__["a" /* ViewContainer */](12, 0, this, this._anchor_12);
-        this._TemplateRef_12_5 = new __WEBPACK_IMPORTED_MODULE_21__angular_core_src_linker_template_ref__["a" /* TemplateRef_ */](this, 12, this._anchor_12);
-        this._NgIf_12_6 = new __WEBPACK_IMPORTED_MODULE_25__gendir_node_modules_angular_common_src_directives_ng_if_ngfactory__["a" /* Wrapper_NgIf */](this._vc_12.vcRef, this._TemplateRef_12_5);
-        this._anchor_13 = this.renderer.createTemplateAnchor(null, null);
-        this._vc_13 = new __WEBPACK_IMPORTED_MODULE_13__angular_core_src_linker_view_container__["a" /* ViewContainer */](13, 0, this, this._anchor_13);
-        this._TemplateRef_13_5 = new __WEBPACK_IMPORTED_MODULE_21__angular_core_src_linker_template_ref__["a" /* TemplateRef_ */](this, 13, this._anchor_13);
-        this._NgIf_13_6 = new __WEBPACK_IMPORTED_MODULE_25__gendir_node_modules_angular_common_src_directives_ng_if_ngfactory__["a" /* Wrapper_NgIf */](this._vc_13.vcRef, this._TemplateRef_13_5);
-        this._text_14 = this.renderer.createText(null, '  No Domains are listed ', null);
-        var disposable_0 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["subscribeToRenderElement"](this, this._el_7, new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'click', null), this.eventHandler(this.handleEvent_7));
-        var disposable_1 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["subscribeToRenderElement"](this, this._el_9, new __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["InlineArray2"](2, 'click', null), this.eventHandler(this.handleEvent_9));
-        this.init(this._text_14, (this.renderer.directRenderer ? null : [
-            this._el_0,
-            this._el_1,
-            this._el_2,
-            this._text_3,
-            this._el_4,
-            this._el_5,
-            this._el_6,
-            this._el_7,
-            this._el_8,
-            this._el_9,
-            this._el_10,
-            this._anchor_11,
-            this._anchor_12,
-            this._anchor_13,
-            this._text_14
-        ]), [
-            disposable_0,
-            disposable_1
-        ]);
-        return null;
-    };
-    View_ListsComponent2.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
-        if (((token === __WEBPACK_IMPORTED_MODULE_28__angular_common_src_directives_ng_class__["a" /* NgClass */]) && (10 === requestNodeIndex))) {
-            return this._NgClass_10_3.context;
-        }
-        if (((token === __WEBPACK_IMPORTED_MODULE_21__angular_core_src_linker_template_ref__["b" /* TemplateRef */]) && (11 === requestNodeIndex))) {
-            return this._TemplateRef_11_5;
-        }
-        if (((token === __WEBPACK_IMPORTED_MODULE_29__angular_common_src_directives_ng_if__["a" /* NgIf */]) && (11 === requestNodeIndex))) {
-            return this._NgIf_11_6.context;
-        }
-        if (((token === __WEBPACK_IMPORTED_MODULE_21__angular_core_src_linker_template_ref__["b" /* TemplateRef */]) && (12 === requestNodeIndex))) {
-            return this._TemplateRef_12_5;
-        }
-        if (((token === __WEBPACK_IMPORTED_MODULE_29__angular_common_src_directives_ng_if__["a" /* NgIf */]) && (12 === requestNodeIndex))) {
-            return this._NgIf_12_6.context;
-        }
-        if (((token === __WEBPACK_IMPORTED_MODULE_21__angular_core_src_linker_template_ref__["b" /* TemplateRef */]) && (13 === requestNodeIndex))) {
-            return this._TemplateRef_13_5;
-        }
-        if (((token === __WEBPACK_IMPORTED_MODULE_29__angular_common_src_directives_ng_if__["a" /* NgIf */]) && (13 === requestNodeIndex))) {
-            return this._NgIf_13_6.context;
-        }
-        return notFoundResult;
-    };
-    View_ListsComponent2.prototype.detectChangesInternal = function (throwOnChange) {
-        var currVal_10_0_0 = 'fa fa-refresh';
-        this._NgClass_10_3.check_klass(currVal_10_0_0, throwOnChange, false);
-        var currVal_10_0_1 = this._map_29(this.parentView.context.isRequesting);
-        this._NgClass_10_3.check_ngClass(currVal_10_0_1, throwOnChange, false);
-        this._NgClass_10_3.ngDoCheck(this, this._el_10, throwOnChange);
-        var currVal_11_0_0 = this.parentView.context.alertVisible;
-        this._NgIf_11_6.check_ngIf(currVal_11_0_0, throwOnChange, false);
-        this._NgIf_11_6.ngDoCheck(this, this._anchor_11, throwOnChange);
-        var currVal_12_0_0 = (this.parentView.context.domainList.length > 0);
-        this._NgIf_12_6.check_ngIf(currVal_12_0_0, throwOnChange, false);
-        this._NgIf_12_6.ngDoCheck(this, this._anchor_12, throwOnChange);
-        var currVal_13_0_0 = (this.parentView.context.domainList.length == 0);
-        this._NgIf_13_6.check_ngIf(currVal_13_0_0, throwOnChange, false);
-        this._NgIf_13_6.ngDoCheck(this, this._anchor_13, throwOnChange);
-        this._vc_11.detectChangesInNestedViews(throwOnChange);
-        this._vc_12.detectChangesInNestedViews(throwOnChange);
-        this._vc_13.detectChangesInNestedViews(throwOnChange);
-        var currVal_25 = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["inlineInterpolate"](1, '', this.parentView.context.listTitle, '');
-        if (__WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["checkBinding"](throwOnChange, this._expr_25, currVal_25)) {
-            this.renderer.setText(this._text_3, currVal_25);
-            this._expr_25 = currVal_25;
-        }
-        var currVal_26 = this.parentView.context.domain;
-        if (__WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["checkBinding"](throwOnChange, this._expr_26, currVal_26)) {
-            this.renderer.setElementProperty(this._el_5, 'value', currVal_26);
-            this._expr_26 = currVal_26;
-        }
-        var currVal_27 = this.parentView.context.isRequesting;
-        if (__WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["checkBinding"](throwOnChange, this._expr_27, currVal_27)) {
-            this.renderer.setElementProperty(this._el_7, 'disabled', currVal_27);
-            this._expr_27 = currVal_27;
-        }
-        var currVal_28 = this.parentView.context.isRequesting;
-        if (__WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["checkBinding"](throwOnChange, this._expr_28, currVal_28)) {
-            this.renderer.setElementProperty(this._el_9, 'disabled', currVal_28);
-            this._expr_28 = currVal_28;
-        }
-    };
-    View_ListsComponent2.prototype.destroyInternal = function () {
-        this._vc_11.destroyNestedViews();
-        this._vc_12.destroyNestedViews();
-        this._vc_13.destroyNestedViews();
-    };
-    View_ListsComponent2.prototype.visitRootNodesInternal = function (cb, ctx) {
-        cb(this._el_0, ctx);
-        cb(this._el_1, ctx);
-        cb(this._el_4, ctx);
-        cb(this._vc_11.nativeElement, ctx);
-        this._vc_11.visitNestedViewRootNodes(cb, ctx);
-        cb(this._vc_12.nativeElement, ctx);
-        this._vc_12.visitNestedViewRootNodes(cb, ctx);
-        cb(this._vc_13.nativeElement, ctx);
-        this._vc_13.visitNestedViewRootNodes(cb, ctx);
-        cb(this._text_14, ctx);
-    };
-    View_ListsComponent2.prototype.createEmbeddedViewInternal = function (nodeIndex) {
-        if ((nodeIndex == 11)) {
-            return new View_ListsComponent3(this.viewUtils, this, 11, this._anchor_11, this._vc_11);
-        }
-        if ((nodeIndex == 12)) {
-            return new View_ListsComponent4(this.viewUtils, this, 12, this._anchor_12, this._vc_12);
-        }
-        if ((nodeIndex == 13)) {
-            return new View_ListsComponent6(this.viewUtils, this, 13, this._anchor_13, this._vc_13);
-        }
-        return null;
-    };
-    View_ListsComponent2.prototype.handleEvent_7 = function (eventName, $event) {
-        this.markPathToRootAsCheckOnce();
-        var result = true;
-        if ((eventName == 'click')) {
-            var pd_sub_0 = (this.parentView.context.addDomain() !== false);
-            result = (pd_sub_0 && result);
-        }
-        return result;
-    };
-    View_ListsComponent2.prototype.handleEvent_9 = function (eventName, $event) {
-        this.markPathToRootAsCheckOnce();
-        var result = true;
-        if ((eventName == 'click')) {
-            var pd_sub_0 = (this.parentView.context.refreshList() !== false);
-            result = (pd_sub_0 && result);
-        }
-        return result;
-    };
-    return View_ListsComponent2;
-}(__WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view__["a" /* AppView */]));
-var renderType_ListsComponent = __WEBPACK_IMPORTED_MODULE_3__angular_core_src_linker_view_utils__["createRenderComponentType"]('', 0, __WEBPACK_IMPORTED_MODULE_4__angular_core_src_metadata_view__["b" /* ViewEncapsulation */].None, styles_ListsComponent, {});
+    return View_ListsComponent1;
+}(__WEBPACK_IMPORTED_MODULE_1__angular_core_src_linker_view__["a" /* AppView */]));
+var renderType_ListsComponent = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderComponentType"]('', 0, __WEBPACK_IMPORTED_MODULE_3__angular_core_src_metadata_view__["b" /* ViewEncapsulation */].None, styles_ListsComponent, {});
 var View_ListsComponent0 = (function (_super) {
     __extends(View_ListsComponent0, _super);
     function View_ListsComponent0(viewUtils, parentView, parentIndex, parentElement) {
-        return _super.call(this, View_ListsComponent0, renderType_ListsComponent, __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_view_type__["a" /* ViewType */].COMPONENT, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_7__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways) || this;
+        var _this = _super.call(this, View_ListsComponent0, renderType_ListsComponent, __WEBPACK_IMPORTED_MODULE_5__angular_core_src_linker_view_type__["a" /* ViewType */].COMPONENT, viewUtils, parentView, parentIndex, parentElement, __WEBPACK_IMPORTED_MODULE_6__angular_core_src_change_detection_constants__["b" /* ChangeDetectorStatus */].CheckAlways) || this;
+        _this._expr_13 = __WEBPACK_IMPORTED_MODULE_18__angular_core_src_change_detection_change_detection_util__["b" /* UNINITIALIZED */];
+        return _this;
     }
     View_ListsComponent0.prototype.createInternal = function (rootSelector) {
         var parentRenderNode = this.renderer.createViewRoot(this.parentElement);
-        this._anchor_0 = this.renderer.createTemplateAnchor(parentRenderNode, null);
-        this._vc_0 = new __WEBPACK_IMPORTED_MODULE_13__angular_core_src_linker_view_container__["a" /* ViewContainer */](0, null, this, this._anchor_0);
-        this._TemplateRef_0_5 = new __WEBPACK_IMPORTED_MODULE_21__angular_core_src_linker_template_ref__["a" /* TemplateRef_ */](this, 0, this._anchor_0);
-        this._NgIf_0_6 = new __WEBPACK_IMPORTED_MODULE_25__gendir_node_modules_angular_common_src_directives_ng_if_ngfactory__["a" /* Wrapper_NgIf */](this._vc_0.vcRef, this._TemplateRef_0_5);
-        this._anchor_1 = this.renderer.createTemplateAnchor(parentRenderNode, null);
-        this._vc_1 = new __WEBPACK_IMPORTED_MODULE_13__angular_core_src_linker_view_container__["a" /* ViewContainer */](1, null, this, this._anchor_1);
-        this._TemplateRef_1_5 = new __WEBPACK_IMPORTED_MODULE_21__angular_core_src_linker_template_ref__["a" /* TemplateRef_ */](this, 1, this._anchor_1);
-        this._NgIf_1_6 = new __WEBPACK_IMPORTED_MODULE_25__gendir_node_modules_angular_common_src_directives_ng_if_ngfactory__["a" /* Wrapper_NgIf */](this._vc_1.vcRef, this._TemplateRef_1_5);
+        this._el_0 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, parentRenderNode, 'div', new __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["InlineArray2"](2, 'class', 'page-header'), null);
+        this._el_1 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, this._el_0, 'h1', __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], null);
+        this._text_2 = this.renderer.createText(this._el_1, '', null);
+        this._anchor_3 = this.renderer.createTemplateAnchor(parentRenderNode, null);
+        this._vc_3 = new __WEBPACK_IMPORTED_MODULE_11__angular_core_src_linker_view_container__["a" /* ViewContainer */](3, null, this, this._anchor_3);
+        this._TemplateRef_3_5 = new __WEBPACK_IMPORTED_MODULE_19__angular_core_src_linker_template_ref__["a" /* TemplateRef_ */](this, 3, this._anchor_3);
+        this._NgIf_3_6 = new __WEBPACK_IMPORTED_MODULE_13__gendir_node_modules_angular_common_src_directives_ng_if_ngfactory__["a" /* Wrapper_NgIf */](this._vc_3.vcRef, this._TemplateRef_3_5);
+        this._el_4 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, parentRenderNode, 'domain-input', __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], null);
+        this.compView_4 = new __WEBPACK_IMPORTED_MODULE_15__domain_input_component_ngfactory__["a" /* View_DomainInputComponent0 */](this.viewUtils, this, 4, this._el_4);
+        this._DomainInputComponent_4_3 = new __WEBPACK_IMPORTED_MODULE_15__domain_input_component_ngfactory__["b" /* Wrapper_DomainInputComponent */](this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_4__app_lists_components_lists_service__["a" /* ListsService */], this.parentIndex));
+        this.compView_4.create(this._DomainInputComponent_4_3.context);
+        this._el_5 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["createRenderElement"](this.renderer, parentRenderNode, 'domain-list', __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["EMPTY_INLINE_ARRAY"], null);
+        this.compView_5 = new __WEBPACK_IMPORTED_MODULE_17__domain_list_component_ngfactory__["a" /* View_DomainListComponent0 */](this.viewUtils, this, 5, this._el_5);
+        this._DomainListComponent_5_3 = new __WEBPACK_IMPORTED_MODULE_17__domain_list_component_ngfactory__["b" /* Wrapper_DomainListComponent */](this.parentView.injectorGet(__WEBPACK_IMPORTED_MODULE_4__app_lists_components_lists_service__["a" /* ListsService */], this.parentIndex));
+        this.compView_5.create(this._DomainListComponent_5_3.context);
         this.init(null, (this.renderer.directRenderer ? null : [
-            this._anchor_0,
-            this._anchor_1
+            this._el_0,
+            this._el_1,
+            this._text_2,
+            this._anchor_3,
+            this._el_4,
+            this._el_5
         ]), null);
         return null;
     };
     View_ListsComponent0.prototype.injectorGetInternal = function (token, requestNodeIndex, notFoundResult) {
-        if (((token === __WEBPACK_IMPORTED_MODULE_21__angular_core_src_linker_template_ref__["b" /* TemplateRef */]) && (0 === requestNodeIndex))) {
-            return this._TemplateRef_0_5;
+        if (((token === __WEBPACK_IMPORTED_MODULE_19__angular_core_src_linker_template_ref__["b" /* TemplateRef */]) && (3 === requestNodeIndex))) {
+            return this._TemplateRef_3_5;
         }
-        if (((token === __WEBPACK_IMPORTED_MODULE_29__angular_common_src_directives_ng_if__["a" /* NgIf */]) && (0 === requestNodeIndex))) {
-            return this._NgIf_0_6.context;
+        if (((token === __WEBPACK_IMPORTED_MODULE_20__angular_common_src_directives_ng_if__["a" /* NgIf */]) && (3 === requestNodeIndex))) {
+            return this._NgIf_3_6.context;
         }
-        if (((token === __WEBPACK_IMPORTED_MODULE_21__angular_core_src_linker_template_ref__["b" /* TemplateRef */]) && (1 === requestNodeIndex))) {
-            return this._TemplateRef_1_5;
+        if (((token === __WEBPACK_IMPORTED_MODULE_14__app_lists_components_domain_input_component__["a" /* DomainInputComponent */]) && (4 === requestNodeIndex))) {
+            return this._DomainInputComponent_4_3.context;
         }
-        if (((token === __WEBPACK_IMPORTED_MODULE_29__angular_common_src_directives_ng_if__["a" /* NgIf */]) && (1 === requestNodeIndex))) {
-            return this._NgIf_1_6.context;
+        if (((token === __WEBPACK_IMPORTED_MODULE_16__app_lists_components_domain_list_component__["a" /* DomainListComponent */]) && (5 === requestNodeIndex))) {
+            return this._DomainListComponent_5_3.context;
         }
         return notFoundResult;
     };
     View_ListsComponent0.prototype.detectChangesInternal = function (throwOnChange) {
-        var currVal_0_0_0 = this.context.isUnknownList;
-        this._NgIf_0_6.check_ngIf(currVal_0_0_0, throwOnChange, false);
-        this._NgIf_0_6.ngDoCheck(this, this._anchor_0, throwOnChange);
-        var currVal_1_0_0 = !this.context.isUnknownList;
-        this._NgIf_1_6.check_ngIf(currVal_1_0_0, throwOnChange, false);
-        this._NgIf_1_6.ngDoCheck(this, this._anchor_1, throwOnChange);
-        this._vc_0.detectChangesInNestedViews(throwOnChange);
-        this._vc_1.detectChangesInNestedViews(throwOnChange);
+        var currVal_3_0_0 = this.context.error;
+        this._NgIf_3_6.check_ngIf(currVal_3_0_0, throwOnChange, false);
+        this._NgIf_3_6.ngDoCheck(this, this._anchor_3, throwOnChange);
+        this._DomainInputComponent_4_3.ngDoCheck(this, this._el_4, throwOnChange);
+        this._DomainListComponent_5_3.ngDoCheck(this, this._el_5, throwOnChange);
+        this._vc_3.detectChangesInNestedViews(throwOnChange);
+        var currVal_13 = __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["inlineInterpolate"](1, '', this.context.listTitle, '');
+        if (__WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__["checkBinding"](throwOnChange, this._expr_13, currVal_13)) {
+            this.renderer.setText(this._text_2, currVal_13);
+            this._expr_13 = currVal_13;
+        }
+        this.compView_4.internalDetectChanges(throwOnChange);
+        this.compView_5.internalDetectChanges(throwOnChange);
     };
     View_ListsComponent0.prototype.destroyInternal = function () {
-        this._vc_0.destroyNestedViews();
-        this._vc_1.destroyNestedViews();
+        this._vc_3.destroyNestedViews();
+        this.compView_4.destroy();
+        this.compView_5.destroy();
+        this._DomainListComponent_5_3.ngOnDestroy();
     };
     View_ListsComponent0.prototype.createEmbeddedViewInternal = function (nodeIndex) {
-        if ((nodeIndex == 0)) {
-            return new View_ListsComponent1(this.viewUtils, this, 0, this._anchor_0, this._vc_0);
-        }
-        if ((nodeIndex == 1)) {
-            return new View_ListsComponent2(this.viewUtils, this, 1, this._anchor_1, this._vc_1);
+        if ((nodeIndex == 3)) {
+            return new View_ListsComponent1(this.viewUtils, this, 3, this._anchor_3, this._vc_3);
         }
         return null;
     };
     return View_ListsComponent0;
-}(__WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view__["a" /* AppView */]));
+}(__WEBPACK_IMPORTED_MODULE_1__angular_core_src_linker_view__["a" /* AppView */]));
 
 //# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/lists.component.ngfactory.js.map
 
 /***/ }),
 
-/***/ 975:
+/***/ 983:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_lists_components_select_list_component__ = __webpack_require__(972);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_lists_components_select_list_component__ = __webpack_require__(977);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core_src_linker_view__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core_src_linker_view_utils__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core_src_metadata_view__ = __webpack_require__(13);
@@ -1027,7 +1391,7 @@ var View_ListsComponent0 = (function (_super) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_core_src_change_detection_constants__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_core_src_linker_component_factory__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_services_pihole_api_service__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_router_src_router_state__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_router_src_router_state__ = __webpack_require__(54);
 /* unused harmony export Wrapper_SelectListComponent */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SelectListComponentNgFactory; });
 /* unused harmony export View_SelectListComponent0 */
@@ -1139,25 +1503,34 @@ var View_SelectListComponent0 = (function (_super) {
 
 /***/ }),
 
-/***/ 977:
+/***/ 985:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lists_component__ = __webpack_require__(971);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lists_component__ = __webpack_require__(976);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__lists_component__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__select_list_component__ = __webpack_require__(972);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__select_list_component__ = __webpack_require__(977);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_1__select_list_component__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__domain_input_component__ = __webpack_require__(973);
+/* unused harmony reexport DomainInputComponent */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__domain_list_item_component__ = __webpack_require__(974);
+/* unused harmony reexport DomainListItemComponent */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__domain_list_component__ = __webpack_require__(975);
+/* unused harmony reexport DomainListComponent */
+
+
+
 
 
 //# sourceMappingURL=D:/Don/Documents/Projects/ng2-pihole/src/index.js.map
 
 /***/ }),
 
-/***/ 978:
+/***/ 986:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components__ = __webpack_require__(977);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components__ = __webpack_require__(985);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListsRoutingModule; });
 
 var listsRoutes = [
@@ -1197,7 +1570,7 @@ var ListsRoutingModule = (function () {
 
 /***/ }),
 
-/***/ 979:
+/***/ 987:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

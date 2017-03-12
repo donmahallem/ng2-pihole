@@ -18,17 +18,14 @@ import {
     Query,
     Summary,
     Status,
-    QueryTypes
+    QueryTypes,
+    ListEntry
 } from "./models";
 
 export class AuthData {
     access_token: string;
     refresh_token: string;
     csrf_token: string;
-}
-export class ListEntry {
-    domain: string;
-    type: number;
 }
 export class ForwardDestinations {
     [name: string]: number;
@@ -43,19 +40,19 @@ export class PiholeApiService extends PiholeBackendService {
 
     public addDomainToList(list: string, domain: string): Observable<boolean> {
         let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
-        return this.http
-            .get("/api/list", options)
-            .map(this.extractData)
-            .catch(this.handleError);
+        let options = new RequestOptions({
+            headers: headers,
+            method: "post"
+        });
+        return this.request("/api/list", options);
     }
     public removeDomainFromList(list: string, domain: string): Observable<boolean> {
         let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
-        return this.http
-            .delete("/api/list", options)
-            .map(this.extractData)
-            .catch(this.handleError);
+        let options = new RequestOptions({
+            headers: headers,
+            method: "delete"
+        });
+        return this.request("/api/list", options);
     }
     public getOvertimeData(): Observable<OvertimeData> {
         let headers = new Headers({ "Content-Type": "application/json" });

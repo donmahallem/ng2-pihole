@@ -16,7 +16,8 @@ import {
     Summary,
     Query,
     Status,
-    QueryTypes
+    QueryTypes,
+    ListEntry
 } from "./models";
 
 function randomChoice(arr: any[]): any {
@@ -28,7 +29,13 @@ function randomInt(min: number, max: number): number {
     let _max = Math.max(max, min);
     return Math.round(_min + (Math.random() * (_max - _min)));
 }
-
+function generateRandomDomain(): string {
+    let domain = "";
+    for (let i = 0; i < randomInt(1, 3); i++) {
+        domain += "domain" + randomInt(0, 100) + ".";
+    }
+    return domain + "com";
+};
 function randomIp() {
     let ip = "";
     if (Math.random() < 0.5) {
@@ -109,6 +116,20 @@ export function mockFactory(backend: MockBackend, options: BaseRequestOptions, r
                     }
                 }));
                 connection.mockRespond(response);
+            } else if (connection.request.url.endsWith("/api/list") && connection.request.method === RequestMethod.Get) {
+                // get parameters from post request
+                let domainList = new Array<ListEntry>();
+                for (let i = 0; i < 10; i++) {
+                    let domain = new ListEntry();
+                    domain.domain = generateRandomDomain();
+                    domainList.push(domain);
+                }
+                let response = new Response(new ResponseOptions({
+                    status: 200, body: {
+                        data: domainList
+                    }
+                }));
+                connection.mockRespond(response);
             } else if (connection.request.url.endsWith("/api/status") && connection.request.method === RequestMethod.Get) {
                 // get parameters from post request
                 let status = new Status();
@@ -140,13 +161,7 @@ export function mockFactory(backend: MockBackend, options: BaseRequestOptions, r
                 let min = Date.now() - DAY;
                 for (let i = 0; i < 10000; i++) {
                     let query = new Query();
-                    query.domain = function generateRandomDomain(): string {
-                        let domain = "";
-                        for (let i = 0; i < randomInt(1, 3); i++) {
-                            domain += "domain" + randomInt(0, 100) + ".";
-                        }
-                        return domain + "com";
-                    }();
+                    query.domain = generateRandomDomain();
                     query.type = randomChoice(["A", "AAAA"]);
                     query.status = randomInt(0, 2);
                     query.client = randomIp();
@@ -160,6 +175,7 @@ export function mockFactory(backend: MockBackend, options: BaseRequestOptions, r
                 }));
                 connection.mockRespond(response);
             } else {
+                console.error("Uncaught route", connection.request.url);
                 connection.mockError(new Error("404"));
             }
         }, 500);

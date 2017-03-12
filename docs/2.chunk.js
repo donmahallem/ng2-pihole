@@ -1,22 +1,22 @@
 webpackJsonp([2,9],{
 
-/***/ 970:
+/***/ 971:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core_src_linker_ng_module_factory__ = __webpack_require__(127);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_settings_settings_module__ = __webpack_require__(510);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_settings_settings_module__ = __webpack_require__(509);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_src_common_module__ = __webpack_require__(260);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms_src_directives__ = __webpack_require__(261);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_forms_src_form_providers__ = __webpack_require__(262);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router_src_router_module__ = __webpack_require__(177);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_settings_settings_routing_module__ = __webpack_require__(509);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_modules_adminlte_box_box_module__ = __webpack_require__(498);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_settings_settings_routing_module__ = __webpack_require__(508);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_modules_adminlte_box_box_module__ = __webpack_require__(500);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_common_src_localization__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_forms_src_form_builder__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_forms_src_directives_radio_control_value_accessor__ = __webpack_require__(76);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_settings_component_ngfactory__ = __webpack_require__(503);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_settings_component_ngfactory__ = __webpack_require__(505);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_core_src_i18n_tokens__ = __webpack_require__(176);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__app_settings_components_settings_component__ = __webpack_require__(180);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_router_src_router_config_loader__ = __webpack_require__(77);

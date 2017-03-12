@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
     ListsComponent,
-    SelectListComponent
+    SelectListComponent,
+    DomainInputComponent,
+    DomainListComponent,
+    DomainListItemComponent
 } from "./components"
 import {
     AlertModule,
@@ -21,7 +24,10 @@ import { ListsRoutingModule } from "./lists-routing.module"
     ],
     declarations: [
         ListsComponent,
-        SelectListComponent
+        SelectListComponent,
+        DomainInputComponent,
+        DomainListComponent,
+        DomainListItemComponent
     ], exports: [
 
     ]

@@ -34,7 +34,7 @@ const piholeRoutes: Routes = [
         path: 'list',
         canActivate: [RouteGuardService],
         data: {
-            requiresLogin: true
+            requiresLogin: false
         },
         loadChildren: "app/lists/lists.module#ListsModule"
     },

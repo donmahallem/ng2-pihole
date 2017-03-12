@@ -1,0 +1,3 @@
+// Domain List
+ul.list-group(*ngIf="domainList?.length>0")
+    domain-list-item(*ngFor="let domainEntry of domainList",[domain]="domainEntry")

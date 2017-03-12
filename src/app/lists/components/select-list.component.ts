@@ -5,8 +5,7 @@ import {
     NgZone
 } from '@angular/core';
 import {
-    PiholeApiService,
-    ListEntry
+    PiholeApiService
 } from "./../../services/pihole-api.service";
 import {
     ActivatedRoute,
