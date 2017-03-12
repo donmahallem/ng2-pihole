@@ -9,7 +9,7 @@
         "test": "ng test --watch false",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "github": "ng build --aot --base-href /ng2-pihole/ --output-path ./docs",
+        "github": "ng build --prod --aot --base-href /ng2-pihole/ --output-path ./docs",
         "build:pug": "./node_modules/.bin/pug src",
         "build:pug:live": "./node_modules/.bin/pug --watch src",
         "postinstall": "npm run build:pug"

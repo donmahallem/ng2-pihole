@@ -5,7 +5,8 @@ import {
     SelectListComponent,
     DomainInputComponent,
     DomainListComponent,
-    DomainListItemComponent
+    DomainListItemComponent,
+    NotificationDisplayComponent
 } from "./components"
 import {
     AlertModule,
@@ -27,7 +28,8 @@ import { ListsRoutingModule } from "./lists-routing.module"
         SelectListComponent,
         DomainInputComponent,
         DomainListComponent,
-        DomainListItemComponent
+        DomainListItemComponent,
+        NotificationDisplayComponent
     ], exports: [
 
     ]
