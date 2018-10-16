@@ -41,7 +41,7 @@
         "@angular/cli": "1.0.0-rc.1",
         "@angular/compiler-cli": "^2.4.0",
         "@types/jasmine": "^2.5.44",
-        "@types/jquery": "^2.0.40",
+        "@types/jquery": "^3.3.18",
         "@types/node": "^7.0.5",
         "apply-loader": "^1.0.0",
         "bootstrap": "^3.3.7",
