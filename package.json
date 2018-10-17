@@ -43,7 +43,7 @@
         "@types/jasmine": "^2.5.44",
         "@types/jquery": "^3.3.18",
         "@types/node": "^7.0.5",
-        "apply-loader": "^1.0.0",
+        "apply-loader": "^2.0.0",
         "bootstrap": "^3.3.7",
         "codelyzer": "~4.5.0",
         "font-awesome": "^4.7.0",
