@@ -21,7 +21,7 @@
         "@angular/core": "^6.1.10",
         "@angular/forms": "^6.1.10",
         "@angular/http": "^7.0.0",
-        "@angular/platform-browser": "^2.4.9",
+        "@angular/platform-browser": "^7.0.0",
         "@angular/platform-browser-dynamic": "^2.4.9",
         "@angular/router": "^3.4.0",
         "@types/jquery.datatables": "^1.10.36",
