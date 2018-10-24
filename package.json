@@ -35,7 +35,7 @@
         "ng2-charts": "^1.5.0",
         "rxjs": "^6.3.3",
         "ts-helpers": "^1.1.1",
-        "zone.js": "^0.7.2"
+        "zone.js": "^0.8.26"
     },
     "devDependencies": {
         "@angular/cli": "7.0.2",
