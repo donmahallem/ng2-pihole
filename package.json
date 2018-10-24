@@ -22,7 +22,7 @@
         "@angular/forms": "^7.0.0",
         "@angular/http": "^7.0.0",
         "@angular/platform-browser": "^7.0.0",
-        "@angular/platform-browser-dynamic": "^2.4.9",
+        "@angular/platform-browser-dynamic": "^7.0.0",
         "@angular/router": "^7.0.0",
         "@types/jquery.datatables": "^1.10.36",
         "admin-lte": "^2.3.11",
